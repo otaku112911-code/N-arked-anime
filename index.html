@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N-Arked Anime</title>
+<style>
+:root {
+  --bg: #071426;
+  --panel: #102544;
+  --text: #f0f6ff;
+  --muted: #a9bdd8;
+  --accent: #3b82f6;
+  --border: #24466f;
+}
+body.light {
+  --bg: #edf5ff;
+  --panel: #ffffff;
+  --text: #102544;
+  --muted: #526985;
+  --accent: #2563eb;
+  --border: #c7dcf5;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+h1, h2 { color: var(--accent); }
+button {
+  background: var(--accent);
+  color: white;
+  border: 0;
+  border-radius: 9px;
+  padding: 11px 15px;
+  cursor: pointer;
+}
+input {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 12px;
+  min-width: 0;
+}
+.hero, .card, .player {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin: 18px 0;
+}
+.search {
+  display: flex;
+  gap: 8px;
+}
+.search input { flex: 1; width: 100%; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.poster {
+  padding: 30px 5px;
+  border-radius: 9px;
+  text-align: center;
+  font-weight: bold;
+  background: linear-gradient(135deg, #102544, #3b82f6);
+  color: white;
+}
+video { width: 100%; background: black; }
+p { color: var(--muted); }
+@media (min-width: 650px) {
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <strong>N-ARKED ANIME</strong>
+  <button id="theme">☀️ Light</button>
+</header>
+
+<section class="hero">
+  <h1>Discover Anime</h1>
+  <p>Find your next adventure.</p>
+</section>
+
+<div class="search">
+  <input id="search" placeholder="Search anime...">
+  <button id="searchBtn">Search</button>
+</div>
+
+<h2>Anime Library</h2>
+<div class="grid" id="library">
+  <article class="card" data-name="One Piece">
+    <div class="poster">ONE PIECE</div>
+    <h3>One Piece</h3>
+    <button onclick="chooseAnime('One Piece')">Select</button>
+  </article>
+  <article class="card" data-name="Naruto">
+    <div class="poster">NARUTO</div>
+    <h3>Naruto</h3>
+    <button onclick="chooseAnime('Naruto')">Select</button>
+  </article>
+  <article class="card" data-name="Bleach">
+    <div class="poster">BLEACH</div>
+    <h3>Bleach</h3>
+    <button onclick="chooseAnime('Bleach')">Select</button>
+  </article>
+  <article class="card" data-name="Demon Slayer">
+    <div class="poster">DEMON SLAYER</div>
+    <h3>Demon Slayer</h3>
+    <button onclick="chooseAnime('Demon Slayer')">Select</button>
+  </article>
+</div>
+
+<section class="player" id="playerSection">
+  <h2 id="episodeTitle">Episode Player</h2>
+  <video id="video" controls playsinline></video>
+  <p>Apni authorized video file ka direct URL enter karo.</p>
+  <input id="videoUrl" type="url"
+    placeholder="https://example.com/episode.mp4"
+    style="width:100%">
+  <br><br>
+  <button id="load">Load Episode</button>
+  <p id="status">No episode loaded.</p>
+</section>
+
+<script>
+const theme = document.getElementById('theme');
+
+theme.onclick = () => {
+  document.body.classList.toggle('light');
+  theme.textContent = document.body.classList.contains('light')
+    ? '🌙 Dark' : '☀️ Light';
+};
+
+function chooseAnime(name) {
+  document.getElementById('episodeTitle').textContent =
+    name + ' — Episode Player';
+  document.getElementById('playerSection')
+    .scrollIntoView({behavior: 'smooth'});
+}
+
+function filterAnime() {
+  const query = document.getElementById('search')
+    .value.toLowerCase().trim();
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.hidden = !card.dataset.name.toLowerCase().includes(query);
+  });
+}
+
+document.getElementById('searchBtn').onclick = filterAnime;
+document.getElementById('search').oninput = filterAnime;
+
+document.getElementById('load').onclick = () => {
+  const field = document.getElementById('videoUrl');
+  const status = document.getElementById('status');
+
+  try {
+    const url = new URL(field.value);
+    if (!['https:', 'http:'].includes(url.protocol)) {
+      throw new Error();
+    }
+    const video = document.getElementById('video');
+    video.src = url.href;
+    video.load();
+    status.textContent = 'URL loaded. Press Play to test.';
+  } catch {
+    status.textContent = 'Please enter a valid video URL.';
+  }
+};
+</script>
+</body>
+</html>
