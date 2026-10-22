@@ -4,184 +4,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>N-Arked Anime</title>
+<title>N-ARKED ARCADE</title>
 <style>
-:root {
-  --bg: #071426;
-  --panel: #102544;
-  --text: #f0f6ff;
-  --muted: #a9bdd8;
-  --accent: #3b82f6;
-  --border: #24466f;
-}
-body.light {
-  --bg: #edf5ff;
-  --panel: #ffffff;
-  --text: #102544;
-  --muted: #526985;
-  --accent: #2563eb;
-  --border: #c7dcf5;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: 16px;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-}
-h1, h2 { color: var(--accent); }
-button {
-  background: var(--accent);
-  color: white;
-  border: 0;
-  border-radius: 9px;
-  padding: 11px 15px;
-  cursor: pointer;
-}
-input {
-  background: var(--panel);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  padding: 12px;
-  min-width: 0;
-}
-.hero, .card, .player {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 16px;
-  margin: 18px 0;
-}
-.search {
-  display: flex;
-  gap: 8px;
-}
-.search input { flex: 1; width: 100%; }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-.poster {
-  padding: 30px 5px;
-  border-radius: 9px;
-  text-align: center;
-  font-weight: bold;
-  background: linear-gradient(135deg, #102544, #3b82f6);
-  color: white;
-}
-video { width: 100%; background: black; }
-p { color: var(--muted); }
-@media (min-width: 650px) {
-  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
+:root{color-scheme:dark;--bg:#071426;--panel:#102544;--blue:#3b82f6;--text:#f0f6ff;--muted:#a9bdd8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+header{padding:18px 5%;background:#091a32;border-bottom:1px solid #24466f;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:22px;font-weight:900;color:#60a5fa}
+.logo span{color:white}
+input,button{font:inherit;border-radius:10px;padding:11px;border:1px solid #31527b}
+input{background:#102544;color:white;width:min(100%,280px)}
+button{background:var(--blue);color:white;font-weight:bold;cursor:pointer}
+main{max-width:1100px;margin:auto;padding:22px}
+.hero{background:linear-gradient(120deg,#123a72,#071426 75%);border:1px solid #24466f;border-radius:20px;padding:30px 22px;margin-bottom:28px}
+.hero small{color:#93c5fd;font-weight:bold;letter-spacing:2px}
+h1{font-size:clamp(30px,7vw,48px);margin:12px 0}
+p{color:var(--muted);line-height:1.5}
+h2{margin-top:28px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.filters button{background:#102544}
+.filters button.active{background:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.card{background:var(--panel);border:1px solid #24466f;border-radius:15px;padding:18px;min-width:0}
+.art{height:100px;border-radius:10px;display:grid;place-items:center;font-size:45px;background:linear-gradient(135deg,#173e73,#071426);margin-bottom:12px}
+.card h3{margin:5px 0}
+.card p{font-size:13px}
+.card button{width:100%;margin-top:8px}
+#game{display:none;margin-top:25px}
+.gamebox{background:var(--panel);border:1px solid #24466f;padding:15px;border-radius:15px;text-align:center}
+canvas{display:block;width:100%;max-width:360px;margin:15px auto;background:#06101e;border:2px solid #31527b;border-radius:8px;touch-action:none}
+.controls{display:grid;grid-template-columns:repeat(3,55px);gap:6px;justify-content:center;margin:12px auto}
+.controls button{padding:12px 4px}
+footer{text-align:center;color:var(--muted);padding:25px;font-size:13px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.hero{padding:42px}}
 </style>
 </head>
 <body>
 <header>
-  <strong>N-ARKED ANIME</strong>
-  <button id="theme">☀️ Light</button>
+  <div class="logo">N-ARKED <span>ARCADE</span></div>
+  <input id="search" placeholder="Search games..." aria-label="Search games">
 </header>
-
-<section class="hero">
-  <h1>Discover Anime</h1>
-  <p>Find your next adventure.</p>
-</section>
-
-<div class="search">
-  <input id="search" placeholder="Search anime...">
-  <button id="searchBtn">Search</button>
-</div>
-
-<h2>Anime Library</h2>
-<div class="grid" id="library">
-  <article class="card" data-name="One Piece">
-    <div class="poster">ONE PIECE</div>
-    <h3>One Piece</h3>
-    <button onclick="chooseAnime('One Piece')">Select</button>
-  </article>
-  <article class="card" data-name="Naruto">
-    <div class="poster">NARUTO</div>
-    <h3>Naruto</h3>
-    <button onclick="chooseAnime('Naruto')">Select</button>
-  </article>
-  <article class="card" data-name="Bleach">
-    <div class="poster">BLEACH</div>
-    <h3>Bleach</h3>
-    <button onclick="chooseAnime('Bleach')">Select</button>
-  </article>
-  <article class="card" data-name="Demon Slayer">
-    <div class="poster">DEMON SLAYER</div>
-    <h3>Demon Slayer</h3>
-    <button onclick="chooseAnime('Demon Slayer')">Select</button>
-  </article>
-</div>
-
-<section class="player" id="playerSection">
-  <h2 id="episodeTitle">Episode Player</h2>
-  <video id="video" controls playsinline></video>
-  <p>Apni authorized video file ka direct URL enter karo.</p>
-  <input id="videoUrl" type="url"
-    placeholder="https://example.com/episode.mp4"
-    style="width:100%">
-  <br><br>
-  <button id="load">Load Episode</button>
-  <p id="status">No episode loaded.</p>
-</section>
-
+<main>
+  <section class="hero">
+    <small>YOUR ARCADE. YOUR RULES.</small>
+    <h1>PLAY. <span style="color:#60a5fa">LEVEL UP.</span></h1>
+    <p>Puzzle, racing, shooting and classic arcade games — all in one place.</p>
+    <button onclick="openGame('snake')">▶ PLAY SNAKE</button>
+  </section>
+  <h2>Explore Games</h2>
+  <div class="filters">
+    <button class="active" data-filter="All">All Games</button>
+    <button data-filter="Puzzle">Puzzle</button>
+    <button data-filter="Arcade">Arcade</button>
+    <button data-filter="Racing">Racing</button>
+    <button data-filter="Shooting">Shooting</button>
+  </div>
+  <div class="grid" id="grid"></div>
+  <section id="game">
+    <h2>🐍 Snake Classic</h2>
+    <div class="gamebox">
+      <p>Eat the food, grow longer and avoid hitting yourself!</p>
+      <div>Score: <strong id="score">0</strong></div>
+      <canvas id="board" width="300" height="300"></canvas>
+      <button id="start">Start / Restart</button>
+      <div class="controls">
+        <span></span><button onclick="turn(0,-1)">▲</button><span></span>
+        <button onclick="turn(-1,0)">◀</button>
+        <button onclick="turn(0,1)">▼</button>
+        <button onclick="turn(1,0)">▶</button>
+      </div>
+      <button onclick="closeGame()">Close Game</button>
+    </div>
+  </section>
+</main>
+<footer>© N-ARKED ARCADE · Built for fun</footer>
 <script>
-const theme = document.getElementById('theme');
-
-theme.onclick = () => {
-  document.body.classList.toggle('light');
-  theme.textContent = document.body.classList.contains('light')
-    ? '🌙 Dark' : '☀️ Light';
-};
-
-function chooseAnime(name) {
-  document.getElementById('episodeTitle').textContent =
-    name + ' — Episode Player';
-  document.getElementById('playerSection')
-    .scrollIntoView({behavior: 'smooth'});
+const games=[
+{name:"Snake Classic",cat:"Arcade",icon:"🐍",desc:"Eat food and beat your high score.",id:"snake"},
+{name:"Memory Match",cat:"Puzzle",icon:"🧠",desc:"Train your memory with a mini challenge.",id:"memory"},
+{name:"Number Puzzle",cat:"Puzzle",icon:"🔢",desc:"Solve a number challenge.",id:"number"},
+{name:"Space Shooter",cat:"Shooting",icon:"🚀",desc:"A space shooter is coming next.",id:"soon1"},
+{name:"Speed Racer",cat:"Racing",icon:"🏎️",desc:"A racing challenge is coming next.",id:"soon2"},
+{name:"Color Match",cat:"Puzzle",icon:"🎨",desc:"Match colors and think fast.",id:"soon3"},
+{name:"Brick Breaker",cat:"Arcade",icon:"🧱",desc:"Classic arcade action coming next.",id:"soon4"},
+{name:"Quick Tap",cat:"Arcade",icon:"⚡",desc:"Test your reaction speed.",id:"soon5"}
+];
+let filter="All";
+function render(){
+const q=document.getElementById("search").value.toLowerCase();
+document.getElementById("grid").innerHTML=games.filter(g=>(filter==="All"||g.cat===filter)&&g.name.toLowerCase().includes(q)).map(g=>`<article class="card"><div class="art">${g.icon}</div><h3>${g.name}</h3><p>${g.cat} · ${g.desc}</p><button onclick="openGame('${g.id}')">${g.id==="snake"?"▶ Play Now":g.id==="memory"||g.id==="number"?"Open Game":"Coming Soon"}</button></article>`).join("");
 }
-
-function filterAnime() {
-  const query = document.getElementById('search')
-    .value.toLowerCase().trim();
-
-  document.querySelectorAll('.card').forEach(card => {
-    card.hidden = !card.dataset.name.toLowerCase().includes(query);
-  });
+document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));render()});
+document.getElementById("search").addEventListener("input",render);
+function openGame(id){
+const s=document.getElementById("game");
+s.style.display="block";
+if(id==="snake"){s.scrollIntoView({behavior:"smooth"});return}
+if(id==="memory"){memoryGame();return}
+if(id==="number"){numberGame();return}
+alert("This game will be added in a future update!");
 }
+function closeGame(){stop();document.getElementById("game").style.display="none"}
+render();
 
-document.getElementById('searchBtn').onclick = filterAnime;
-document.getElementById('search').oninput = filterAnime;
+const canvas=document.getElementById("board"),ctx=canvas.getContext("2d");
+const cell=15,total=20;
+let snake,food,dir,next,score,timer,running=false;
+function reset(){
+stop();snake=[{x:10,y:10},{x:9,y:10},{x:8,y:10}];
+dir={x:1,y:0};next={x:1,y:0};score=0;placeFood();draw();
+document.getElementById("score").textContent=score;
+}
+function placeFood(){
+do{food={x:Math.floor(Math.random()*total),y:Math.floor(Math.random()*total)}}
+while(snake.some(p=>p.x===food.x&&p.y===food.y));
+}
+function draw(){
+ctx.fillStyle="#06101e";ctx.fillRect(0,0,300,300);
+ctx.fillStyle="#f87171";ctx.fillRect(food.x*cell,food.y*cell,cell-2,cell-2);
+snake.forEach((p,i)=>{ctx.fillStyle=i===0?"#60a5fa":"#2563eb";ctx.fillRect(p.x*cell,p.y*cell,cell-2,cell-2)});
+}
+function tick(){
+dir=next;const h={x:snake[0].x+dir.x,y:snake[0].y+dir.y};
+if(h.x<0||h.y<0||h.x>=total||h.y>=total||snake.some(p=>p.x===h.x&&p.y===h.y)){stop();alert("Game over! Score: "+score);return}
+snake.unshift(h);
+if(h.x===food.x&&h.y===food.y){score++;document.getElementById("score").textContent=score;placeFood()}else snake.pop();
+draw();
+}
+function stop(){if(timer)clearInterval(timer);timer=null;running=false}
+document.getElementById("start").onclick=()=>{reset();running=true;timer=setInterval(tick,140)};
+function turn(x,y){if(!running)return;if(x===-dir.x&&y===-dir.y)return;next={x,y}}
+document.addEventListener("keydown",e=>{
+const k=e.key.toLowerCase(),m={arrowup:[0,-1],w:[0,-1],arrowdown:[0,1],s:[0,1],arrowleft:[-1,0],a:[-1,0],arrowright:[1,0],d:[1,0]};
+if(m[k]){e.preventDefault();turn(...m[k])}
+});
+reset();
 
-document.getElementById('load').onclick = () => {
-  const field = document.getElementById('videoUrl');
-  const status = document.getElementById('status');
-
-  try {
-    const url = new URL(field.value);
-    if (!['https:', 'http:'].includes(url.protocol)) {
-      throw new Error();
-    }
-    const video = document.getElementById('video');
-    video.src = url.href;
-    video.load();
-    status.textContent = 'URL loaded. Press Play to test.';
-  } catch {
-    status.textContent = 'Please enter a valid video URL.';
-  }
-};
+function memoryGame(){
+stop();
+const s=document.getElementById("game");
+s.innerHTML=`<h2>🧠 Memory Match</h2><div class="gamebox"><p>Find matching pairs.</p><div id="mem" class="grid"></div><p id="memmsg"></p><button onclick="closeGame()">Close Game</button></div>`;
+const vals=["🐱","🐱","🚀","🚀","⭐","⭐","🍎","🍎"];
+vals.sort(()=>Math.random()-.5);
+let open=[],matched=0,locked=false;
+document.getElementById("mem").innerHTML=vals.map((v,i)=>`<button style="height:65px;font-size:25px" data-i="${i}">?</button>`).join("");
+document.querySelectorAll("#mem button").forEach(b=>b.onclick=()=>{
+if(locked||b.textContent!=="?")return;
+const i=+b.dataset.i;b.textContent=vals[i];open.push({b,v:vals[i]});
+if(open.length===2){
+if(open[0].v===open[1].v){matched+=2;open=[];if(matched===vals.length)document.getElementById("memmsg").textContent="You won!"}
+else{locked=true;setTimeout(()=>{open.forEach(o=>o.b.textContent="?");open=[];locked=false},700)}
+}
+});
+}
+function numberGame(){
+stop();let target=Math.floor(Math.random()*20)+1;
+document.getElementById("game").innerHTML=`<h2>🔢 Number Guess</h2><div class="gamebox"><p>Guess a number from 1 to 20.</p><input id="guess" type="number" min="1" max="20" placeholder="Your guess"><button onclick="checkGuess()">Guess</button><p id="hint"></p><button onclick="numberGame()">New Number</button><button onclick="closeGame()">Close</button></div>`;
+window.checkGuess=()=>{let n=+document.getElementById("guess").value;document.getElementById("hint").textContent=n===target?"Correct! You won!":n<target?"Try a higher number.":"Try a lower number."};
+}
 </script>
 </body>
-</html>
+      </html>
+          
