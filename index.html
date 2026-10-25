@@ -3,170 +3,59 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050914">
-<title>N-ARKED MUSIC | Enter Another World</title>
+<title>N-ARKED MUSIC | Anime Sound</title>
 
 <style>
 :root {
   --bg: #050914;
   --panel: #0b1426;
-  --panel2: #101d32;
   --blue: #168cff;
   --cyan: #54d9ff;
   --text: #f3f7ff;
   --muted: #91a4bf;
-  --border: rgba(120,180,255,.15);
 }
-
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(ellipse at 80% 10%, #10264a 0, transparent 40%),
+    var(--bg);
   color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
 
-button, input { font: inherit; }
-button { cursor: pointer; }
-
-button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 3px;
-}
-
-.topbar {
-  height: 72px;
-  padding: 0 5%;
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  background: rgba(5,9,20,.95);
-  border-bottom: 1px solid var(--border);
+header {
+  padding: 20px 6%;
+  border-bottom: 1px solid #1b2b42;
+  background: rgba(5,9,20,.9);
   position: sticky;
   top: 0;
-  z-index: 10;
-  backdrop-filter: blur(16px);
+  z-index: 2;
 }
 
 .logo {
-  font-size: 21px;
+  font-size: 22px;
   font-weight: 900;
-  letter-spacing: 1.5px;
-  white-space: nowrap;
+  letter-spacing: 2px;
 }
-
 .logo span { color: var(--cyan); }
 
-.search {
-  flex: 1;
-  max-width: 520px;
-  margin-left: auto;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 15px;
-  color: white;
-  min-width: 0;
-}
-
-.search:focus { border-color: var(--blue); }
-
-.top-button, .secondary {
-  color: white;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  padding: 11px 15px;
-  border-radius: 10px;
-}
-
-.layout {
-  display: grid;
-  grid-template-columns: 205px minmax(0,1fr);
-  min-height: calc(100vh - 72px);
-}
-
-.sidebar {
-  padding: 27px 15px;
-  border-right: 1px solid var(--border);
-  background: #070d19;
-}
-
-.side-title {
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: 2px;
-  margin: 20px 10px 12px;
-}
-
-.nav-item {
-  width: 100%;
-  text-align: left;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  padding: 13px 12px;
-  border-radius: 9px;
-  margin: 2px 0;
-}
-
-.nav-item:hover, .nav-item.active {
-  color: white;
-  background: linear-gradient(90deg, #123d72, #0c1b31);
-}
-
 main {
-  min-width: 0;
-  padding: 28px 4% 120px;
+  width: min(950px, 92%);
+  margin: 35px auto 130px;
 }
 
 .hero {
-  min-height: 335px;
-  border: 1px solid rgba(84,217,255,.24);
-  border-radius: 22px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: clamp(25px,5vw,58px);
+  padding: 35px 25px;
+  border: 1px solid #1b4167;
+  border-radius: 20px;
   background:
-    radial-gradient(ellipse at 80% 40%, rgba(22,140,255,.32), transparent 38%),
-    radial-gradient(ellipse at 90% 100%, #123b72, transparent 50%),
-    linear-gradient(120deg,#0a1426 0%,#09172b 48%,#061021 100%);
-}
-
-.hero::before {
-  content: "音";
-  position: absolute;
-  right: 7%;
-  top: -65px;
-  font-size: clamp(200px,30vw,350px);
-  font-weight: 900;
-  color: rgba(84,217,255,.055);
-  text-shadow: 0 0 70px rgba(22,140,255,.25);
-  pointer-events: none;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  width: 260px;
-  height: 260px;
-  right: 12%;
-  top: 35px;
-  border: 1px solid rgba(84,217,255,.25);
-  border-radius: 50%;
-  box-shadow: 0 0 0 24px rgba(84,217,255,.035),
-              0 0 0 52px rgba(84,217,255,.025),
-              inset 0 0 70px rgba(22,140,255,.15);
-  pointer-events: none;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 520px;
+    radial-gradient(circle at 90% 20%, #124b81, transparent 40%),
+    linear-gradient(130deg, #101c32, #071020);
 }
 
 .eyebrow {
@@ -177,655 +66,269 @@ main {
 }
 
 h1 {
-  font-size: clamp(35px,5vw,62px);
+  font-size: clamp(34px, 7vw, 58px);
   line-height: 1.05;
-  margin: 16px 0;
-  letter-spacing: -2px;
+  margin: 18px 0 12px;
 }
 
 h1 span {
   color: var(--cyan);
-  text-shadow: 0 0 30px rgba(84,217,255,.25);
 }
 
-.hero p {
-  color: #b0c0d7;
+p {
+  color: var(--muted);
   line-height: 1.7;
-  max-width: 440px;
 }
 
-.primary {
-  background: linear-gradient(110deg,var(--blue),#0863d8);
-  color: white;
-  border: 0;
-  border-radius: 10px;
-  padding: 14px 21px;
-  font-weight: bold;
-  box-shadow: 0 5px 25px rgba(22,140,255,.2);
-}
-
-.primary:hover { filter: brightness(1.15); }
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  margin: 35px 0 17px;
-}
-
-h2 {
+.section-title {
   font-size: 21px;
-  margin: 0;
+  margin: 30px 0 15px;
 }
 
-.section-sub {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 6px;
-}
-
-.filters {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 3px 0 12px;
-}
-
-.filter {
-  flex-shrink: 0;
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  padding: 9px 15px;
-  color: var(--muted);
+.music-card {
   background: var(--panel);
+  border: 1px solid #203653;
+  border-radius: 17px;
+  padding: 20px;
 }
 
-.filter.active, .filter:hover {
-  color: white;
-  background: #12345b;
-  border-color: #168cff;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4,minmax(0,1fr));
-  gap: 17px;
-}
-
-.track {
-  min-width: 0;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  transition: transform .2s, border-color .2s;
-}
-
-.track:hover {
-  transform: translateY(-4px);
-  border-color: rgba(84,217,255,.5);
-}
-
-.cover {
-  aspect-ratio: 1 / 1;
-  display: grid;
-  place-items: center;
-  position: relative;
-  overflow: hidden;
+.song-art {
+  min-height: 155px;
+  border-radius: 12px;
   background:
-    radial-gradient(circle at 50% 40%,var(--glow),transparent 40%),
-    linear-gradient(145deg,var(--c1),var(--c2));
-}
-
-.cover::before {
-  content: "";
-  position: absolute;
-  width: 70%;
-  aspect-ratio: 1;
-  border: 1px solid rgba(255,255,255,.25);
-  border-radius: 50%;
-  box-shadow: 0 0 35px var(--glow), inset 0 0 30px var(--glow);
-}
-
-.cover::after {
-  content: "";
-  position: absolute;
-  width: 42%;
-  height: 120%;
-  transform: rotate(38deg);
-  background: linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent);
-}
-
-.cover-symbol {
-  font-size: clamp(35px,5vw,65px);
-  font-weight: 900;
-  color: white;
-  text-shadow: 0 0 30px var(--glow);
-  z-index: 1;
-}
-
-.cover-label {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  z-index: 2;
-  font-size: 9px;
-  letter-spacing: 2px;
-  color: white;
-  opacity: .85;
-}
-
-.track-info { padding: 13px; }
-
-.track-title {
-  font-size: 14px;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.track-anime {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.track-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 5px;
-  margin-top: 12px;
-}
-
-.track-genre {
-  color: var(--cyan);
-  font-size: 10px;
-}
-
-.play-small {
-  border: 1px solid var(--border);
-  color: white;
-  background: #112743;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-}
-
-.play-small:hover { background: var(--blue); }
-
-.empty {
-  grid-column: 1/-1;
-  color: var(--muted);
-  padding: 35px 0;
-  text-align: center;
-}
-
-.feature-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 28px;
-}
-
-.feature {
-  padding: 21px;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  background: linear-gradient(120deg,#0e2340,#0a1222);
-}
-
-.feature h3 { margin: 0 0 8px; font-size: 16px; }
-.feature p { color: var(--muted); font-size: 12px; line-height: 1.7; }
-
-.player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  min-height: 88px;
-  background: rgba(5,10,21,.97);
-  border-top: 1px solid rgba(84,217,255,.22);
-  backdrop-filter: blur(18px);
-  display: grid;
-  grid-template-columns: minmax(0,1fr) auto minmax(0,1fr);
-  align-items: center;
-  gap: 18px;
-  padding: 12px 4%;
-}
-
-.now-playing {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.mini-cover {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  border-radius: 9px;
+    radial-gradient(circle, #168cff66, transparent 45%),
+    linear-gradient(135deg, #102c52, #080d1b);
   display: grid;
   place-items: center;
-  background: linear-gradient(135deg,#123b72,#071020);
-  color: var(--cyan);
+  margin-bottom: 20px;
+}
+
+.song-art span {
+  font-size: 64px;
   font-weight: 900;
+  color: var(--cyan);
+  text-shadow: 0 0 30px #168cff;
 }
 
-.now-title {
-  font-size: 13px;
+.song-title {
+  font-size: 21px;
   font-weight: bold;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.now-sub {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 5px;
-}
-
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 13px;
-}
-
-.control {
-  border: 0;
-  background: transparent;
-  color: #c5d6ec;
-  font-size: 20px;
-  padding: 5px;
-}
-
-.control:hover { color: var(--cyan); }
-
-.control.main-play {
-  background: var(--blue);
-  color: white;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-}
-
-.timeline {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 10px;
+.song-subtitle {
+  font-size: 13px;
   color: var(--muted);
   margin-top: 8px;
 }
 
-.timeline input { width: 100%; min-width: 0; }
-
-input[type="range"] { accent-color: var(--cyan); }
-
-.progress-area { min-width: 0; }
-
-.volume-area {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 9px;
-  color: var(--muted);
-  font-size: 12px;
+button {
+  cursor: pointer;
+  border: 0;
+  color: white;
+  border-radius: 10px;
+  padding: 13px 18px;
+  font-weight: bold;
 }
 
-.volume-area input { width: 90px; }
+.primary {
+  background: linear-gradient(110deg, var(--blue), #0758c9);
+}
+
+.secondary {
+  background: #14243b;
+  border: 1px solid #2c4564;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.player-box {
+  margin-top: 22px;
+  border: 1px solid #234263;
+  border-radius: 14px;
+  padding: 14px;
+  background: #060c18;
+}
+
+.player-label {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  display: block;
+  border: 0;
+  border-radius: 8px;
+  background: #000;
+}
+
+.notice {
+  font-size: 12px;
+  margin-top: 14px;
+}
 
 .status {
+  color: var(--cyan);
+  font-size: 12px;
+  margin-top: 14px;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(5,9,20,.97);
+  border-top: 1px solid #234263;
+  padding: 15px 5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 3;
+  backdrop-filter: blur(12px);
+}
+
+.footer-label {
+  min-width: 0;
+}
+
+.footer-label strong {
+  display: block;
+  font-size: 13px;
+}
+
+.footer-label small {
+  display: block;
   color: var(--muted);
-  font-size: 11px;
-  text-align: center;
-  margin-top: 7px;
+  margin-top: 5px;
 }
 
-@media (max-width: 1000px) {
-  .grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
-  .layout { grid-template-columns: 175px minmax(0,1fr); }
-  .player { grid-template-columns: minmax(0,1fr) auto; }
-  .volume-area { display: none; }
-}
-
-@media (max-width: 650px) {
-  .topbar { height: auto; min-height: 65px; padding: 12px 15px; gap: 10px; flex-wrap: wrap; }
-  .logo { font-size: 17px; }
-  .search { order: 3; flex-basis: 100%; max-width: none; margin: 0; }
-  .top-button { margin-left: auto; padding: 9px 11px; }
-  .layout { display: block; }
-  .sidebar { display: flex; gap: 5px; overflow-x: auto; padding: 10px 12px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .side-title { display: none; }
-  .nav-item { width: auto; flex-shrink: 0; padding: 10px 13px; }
-  main { padding: 18px 14px 125px; }
-  .hero { min-height: 310px; padding: 25px 20px; }
-  .hero::after { right: -100px; opacity: .6; }
-  .hero::before { right: -20px; }
-  h1 { font-size: 39px; }
-  .grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-  .track-info { padding: 10px; }
-  .feature-row { grid-template-columns: 1fr; }
-  .player { grid-template-columns: 1fr auto; gap: 8px; padding: 10px 12px; }
-  .now-playing { gap: 8px; }
-  .mini-cover { width: 39px; height: 39px; }
-  .controls { gap: 5px; }
-  .control { font-size: 17px; }
-  .control.main-play { width: 37px; height: 37px; }
-  .progress-area { grid-column: 1/-1; grid-row: 2; }
-  .timeline { margin-top: 2px; }
+@media (max-width: 500px) {
+  main { margin-top: 20px; }
+  .hero { padding: 25px 19px; }
+  .music-card { padding: 14px; }
+  footer { padding: 12px; }
+  .footer-label strong { font-size: 11px; }
+  button { padding: 12px 14px; }
 }
 </style>
 </head>
 
 <body>
-<header class="topbar">
+<header>
   <div class="logo">N-ARKED <span>MUSIC</span></div>
-  <input class="search" id="search" type="search"
-    placeholder="Search tracks, anime, moods..." aria-label="Search music">
-  <button class="top-button" id="libraryButton">MY LIBRARY</button>
 </header>
 
-<div class="layout">
-  <aside class="sidebar">
-    <button class="nav-item active" data-nav="All">⌂ Discover</button>
-    <button class="nav-item" data-nav="Trending">↗ Trending</button>
-    <button class="nav-item" data-nav="Opening">▶ Openings</button>
-    <button class="nav-item" data-nav="Ending">◀ Endings</button>
-    <button class="nav-item" data-nav="Lo-fi">♫ Anime Lo-fi</button>
-    <button class="nav-item" data-nav="Battle">⚡ Battle Themes</button>
-  </aside>
+<main>
+  <section class="hero">
+    <div class="eyebrow">YOUR ANIME MUSIC UNIVERSE</div>
+    <h1>FEEL THE<br><span>ANIME ENERGY.</span></h1>
+    <p>
+      One soundtrack. A thousand emotions.
+      Enter your own anime music universe.
+    </p>
+    <button class="primary" id="jumpButton">OPEN MUSIC PLAYER ↓</button>
+  </section>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <div class="eyebrow">YOUR NEXT SOUNDTRACK STARTS HERE</div>
-        <h1>FEEL THE<br><span>ANIME ENERGY.</span></h1>
-        <p>
-          From legendary opening themes to emotional endings and
-          high-energy battle music. Find the soundtrack to your world.
-        </p>
-        <button class="primary" id="explore">EXPLORE MUSIC ↗</button>
-      </div>
-    </section>
+  <h2 class="section-title">Featured Track</h2>
 
-    <section id="musicSection">
-      <div class="section-head">
-        <div>
-          <h2 id="sectionTitle">Discover Your Sound</h2>
-          <div class="section-sub">A new world in every track.</div>
-        </div>
-      </div>
+  <section class="music-card" id="musicCard">
+    <div class="song-art"><span>音</span></div>
 
-      <div class="filters" id="filters">
-        <button class="filter active" data-filter="All">All Music</button>
-        <button class="filter" data-filter="Opening">Openings</button>
-        <button class="filter" data-filter="Ending">Endings</button>
-        <button class="filter" data-filter="Battle">Battle Themes</button>
-        <button class="filter" data-filter="Lo-fi">Lo-fi</button>
-        <button class="filter" data-filter="J-rock">J-Rock</button>
-      </div>
-
-      <div class="grid" id="grid"></div>
-      <div class="status" id="libraryStatus" aria-live="polite"></div>
-    </section>
-
-    <section class="feature-row">
-      <article class="feature">
-        <h3>⚡ SHONEN ENERGY</h3>
-        <p>Naruto, Bleach, One Piece and epic anime-inspired battle vibes.</p>
-      </article>
-      <article class="feature">
-        <h3>🌙 AFTER-HOURS MODE</h3>
-        <p>Relax with lo-fi-inspired sounds and a calm late-night atmosphere.</p>
-      </article>
-    </section>
-  </main>
-</div>
-
-<footer class="player">
-  <div class="now-playing">
-    <div class="mini-cover" id="miniCover">N+</div>
-    <div style="min-width:0">
-      <div class="now-title" id="nowTitle">Select a track</div>
-      <div class="now-sub" id="nowAnime">N-ARKED MUSIC</div>
+    <div class="song-title">Anime Music</div>
+    <div class="song-subtitle">
+      YouTube track · N-ARKED MUSIC
     </div>
-  </div>
 
-  <div>
-    <div class="controls">
-      <button class="control" id="previous" aria-label="Previous track">⏮</button>
-      <button class="control main-play" id="play" aria-label="Play music">▶</button>
-      <button class="control" id="next" aria-label="Next track">⏭</button>
+    <div class="actions">
+      <button class="primary" id="playButton">▶ PLAY TRACK</button>
+      <button class="secondary" id="openButton">OPEN ON YOUTUBE ↗</button>
     </div>
-    <div class="progress-area">
-      <div class="timeline">
-        <span id="currentTime">0:00</span>
-        <input type="range" id="progress" min="0" max="100" value="0"
-          aria-label="Music progress">
-        <span id="duration">0:00</span>
+
+    <div class="player-box" id="playerBox">
+      <div class="player-label">YOUTUBE MUSIC PLAYER</div>
+
+      <iframe
+        id="ytPlayer"
+        src="https://www.youtube-nocookie.com/embed/4tywp83zkmk?playsinline=1&controls=1&rel=0"
+        title="YouTube music player"
+        allow="encrypted-media; picture-in-picture; fullscreen"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+
+      <div class="notice">
+        Use the embedded player's controls to play, pause,
+        seek, and adjust volume.
+      </div>
+      <div class="status" id="status" aria-live="polite">
+        Ready to play.
       </div>
     </div>
-  </div>
+  </section>
+</main>
 
-  <div class="volume-area">
-    <span>VOL</span>
-    <input type="range" id="volume" min="0" max="1" step="0.05"
-      value="0.7" aria-label="Volume">
+<footer>
+  <div class="footer-label">
+    <strong>♪ &nbsp; N-ARKED MUSIC</strong>
+    <small>Anime sound experience</small>
   </div>
+  <button class="primary" id="footerPlay">▶ PLAY</button>
 </footer>
 
-<audio id="audio" preload="metadata"></audio>
-
 <script>
-const tracks = [
-  {
-    title: "Blue Horizon",
-    anime: "Shonen Opening Vibes",
-    genre: "Opening",
-    symbol: "青",
-    c1: "#073d77", c2: "#071020", glow: "#168cff",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-  },
-  {
-    title: "Crimson Resolve",
-    anime: "Ninja Battle Atmosphere",
-    genre: "Battle",
-    symbol: "炎",
-    c1: "#651b37", c2: "#100b20", glow: "#ff4f83",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
-  },
-  {
-    title: "Moonlit Memories",
-    anime: "Emotional Ending Vibes",
-    genre: "Ending",
-    symbol: "月",
-    c1: "#293d83", c2: "#0a1027", glow: "#899dff",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
-  },
-  {
-    title: "Soul Reaper",
-    anime: "Spirit Warrior Energy",
-    genre: "Battle",
-    symbol: "斬",
-    c1: "#362079", c2: "#080d20", glow: "#a47bff",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
-  },
-  {
-    title: "Grand Voyage",
-    anime: "Pirate Adventure Vibes",
-    genre: "Opening",
-    symbol: "海",
-    c1: "#087c91", c2: "#08182a", glow: "#54d9ff",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
-  },
-  {
-    title: "Midnight Study",
-    anime: "Anime Lo-fi Mood",
-    genre: "Lo-fi",
-    symbol: "夜",
-    c1: "#264b61", c2: "#0a1126", glow: "#69e5e1",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
-  },
-  {
-    title: "Beyond the Sky",
-    anime: "J-Rock Inspired",
-    genre: "J-rock",
-    symbol: "空",
-    c1: "#164b9a", c2: "#090f28", glow: "#54a8ff",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3"
-  },
-  {
-    title: "Last Promise",
-    anime: "Final Episode Atmosphere",
-    genre: "Ending",
-    symbol: "絆",
-    c1: "#5d315d", c2: "#101025", glow: "#e19bff",
-    audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"
-  }
-];
+const videoId = "4tywp83zkmk";
 
-const grid = document.getElementById("grid");
-const search = document.getElementById("search");
-const audio = document.getElementById("audio");
-const playButton = document.getElementById("play");
-const progress = document.getElementById("progress");
+const player = document.getElementById("ytPlayer");
+const status = document.getElementById("status");
+const playButton = document.getElementById("playButton");
+const footerPlay = document.getElementById("footerPlay");
 
-let activeFilter = "All";
-let currentIndex = -1;
-let isPlaying = false;
-let libraryOnly = false;
-let favorites = new Set();
-
-function render() {
-  const query = search.value.trim().toLowerCase();
-
-  const visible = tracks.map((track, index) => ({...track, index}))
-    .filter(track => {
-      const matchesFilter =
-        activeFilter === "All" ||
-        activeFilter === "Trending" ||
-        track.genre === activeFilter;
-
-      const matchesSearch =
-        (track.title + " " + track.anime + " " + track.genre)
-          .toLowerCase().includes(query);
-
-      const matchesLibrary = !libraryOnly || favorites.has(track.index);
-
-      return matchesFilter && matchesSearch && matchesLibrary;
-    });
-
-  grid.innerHTML = "";
-
-  if (!visible.length) {
-    grid.innerHTML =
-      '<div class="empty">No tracks found. Try another search or save a track to your library.</div>';
-    return;
-  }
-
-  visible.forEach(track => {
-    const card = document.createElement("article");
-    card.className = "track";
-
-    const cover = document.createElement("div");
-    cover.className = "cover";
-    cover.style.setProperty("--c1", track.c1);
-    cover.style.setProperty("--c2", track.c2);
-    cover.style.setProperty("--glow", track.glow);
-
-    const symbol = document.createElement("span");
-    symbol.className = "cover-symbol";
-    symbol.textContent = track.symbol;
-    cover.appendChild(symbol);
-
-    const label = document.createElement("span");
-    label.className = "cover-label";
-    label.textContent = "N-ARKED / ORIGINAL VIBES";
-    cover.appendChild(label);
-
-    const info = document.createElement("div");
-    info.className = "track-info";
-
-    const title = document.createElement("div");
-    title.className = "track-title";
-    title.textContent = track.title;
-
-    const anime = document.createElement("div");
-    anime.className = "track-anime";
-    anime.textContent = track.anime;
-
-    const bottom = document.createElement("div");
-    bottom.className = "track-bottom";
-
-    const genre = document.createElement("span");
-    genre.className = "track-genre";
-    genre.textContent = track.genre.toUpperCase();
-
-    const actions = document.createElement("div");
-    actions.style.display = "flex";
-    actions.style.gap = "5px";
-
-    const favorite = document.createElement("button");
-    favorite.className = "play-small";
-    favorite.textContent = favorites.has(track.index) ? "♥" : "♡";
-    favorite.setAttribute("aria-label", "Save track");
-
-    favorite.addEventListener("click", () => {
-      if (favorites.has(track.index)) favorites.delete(track.index);
-      else favorites.add(track.index);
-      render();
-    });
-
-    const play = document.createElement("button");
-    play.className = "play-small";
-    play.textContent = currentIndex === track.index && isPlaying ? "Ⅱ" : "▶";
-    play.setAttribute("aria-label", "Play " + track.title);
-    play.addEventListener("click", () => selectTrack(track.index));
-
-    actions.append(favorite, play);
-    bottom.append(genre, actions);
-    info.append(title, anime, bottom);
-    card.append(cover, info);
-    grid.appendChild(card);
+function openPlayer() {
+  document.getElementById("playerBox").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
   });
 }
 
-function selectTrack(index) {
-  currentIndex = (index + tracks.length) % tracks.length;
-  const track = tracks[currentIndex];
+function startTrack() {
+  // Load the selected YouTube track with playback requested.
+  player.src =
+    "https://www.youtube-nocookie.com/embed/" +
+    videoId +
+    "?autoplay=1&playsinline=1&controls=1&rel=0";
 
-  audio.src = track.audio;
-  audio.volume = Number(document.getElementById("volume").value);
-  document.getElementById("nowTitle").textContent = track.title;
-  document.getElementById("nowAnime").textContent = track.anime;
-  document.getElementById("miniCover").textContent = track.symbol;
-  progress.value = 0;
-  document.getElementById("currentTime").textContent = "0:00";
-  document.getElementById("duration").textContent = "0:00";
+  status.textContent =
+    "Player opened. Tap Play inside the YouTube player if needed.";
 
-  audio.play().then(() => {
-    isPlaying = true;
-    updatePlayButton();
-    render();
-  }).catch(() => {
-    isPlaying = false;
-    updatePlayButton();
-    document.getElementById("libraryStatus").textContent =
-      "Audio could not start. Check your internet connection or try another track.";
-    render();
-  });
+  playButton.textContent = "↗ PLAYER OPENED";
+  footerPlay.textContent = "↗ OPEN PLAYER";
+  openPlayer();
 }
 
-function updatePlayButton() {
-  playButton.textContent = isPlaying ? "Ⅱ" : "▶";
-  playB
+playButton.addEventListener("click", startTrack);
+footerPlay.addEventListener("click", startTrack);
+
+document.getElementById("jumpButton").addEventListener("click", openPlayer);
+
+document.getElementById("openButton").addEventListener("click", () => {
+  window.open(
+    "https://www.youtube.com/watch?v=" + videoId,
+    "_blank",
+    "noopener,noreferrer"
+  );
+});
+</script>
+</body>
+  </html>
+  
