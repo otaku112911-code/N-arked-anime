@@ -2,306 +2,579 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050914">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d18">
+<title>N-ARKED ANIME | Watch Anime</title>
 
-  <title>N-ARKED | Anime Streaming</title>
+<style>
+:root {
+  --bg: #080d18;
+  --panel: #101a2b;
+  --panel2: #17243a;
+  --blue: #168cff;
+  --cyan: #54d9ff;
+  --text: #f3f7ff;
+  --muted: #9baac0;
+}
 
-  <style>
-    :root {
-      --bg: #050914;
-      --panel: #0b1425;
-      --blue: #168cff;
-      --cyan: #54d9ff;
-      --text: #f4f8ff;
-      --muted: #9aabc4;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, sans-serif;
-    }
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 18px 6%;
-      background: #080e1b;
-      border-bottom: 1px solid #152641;
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
+header {
+  height: 65px;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  background: #0c1422;
+  border-bottom: 1px solid #1b2b43;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 
-    .logo {
-      font-size: 23px;
-      font-weight: 900;
-      color: var(--cyan);
-      letter-spacing: 1px;
-    }
+.logo {
+  color: var(--cyan);
+  font-size: 23px;
+  font-weight: 900;
+  white-space: nowrap;
+}
 
-    .logo span {
-      color: white;
-    }
+.logo span {
+  color: white;
+}
 
-    .header-tag {
-      color: var(--muted);
-      font-size: 12px;
-    }
+nav {
+  display: flex;
+  gap: 22px;
+}
 
-    main {
-      width: 100%;
-      max-width: 1100px;
-      margin: auto;
-      padding: 25px 16px 45px;
-    }
+nav a {
+  color: #c0ccdc;
+  text-decoration: none;
+  font-size: 14px;
+}
 
-    .hero {
-      padding: 28px 22px;
-      border: 1px solid #143a64;
-      border-radius: 18px;
-      background:
-        radial-gradient(ellipse at top right,
-          #103b70 0%, transparent 55%),
-        linear-gradient(135deg, #0b172c, #050914);
-      margin-bottom: 25px;
-    }
+nav a:hover {
+  color: var(--cyan);
+}
 
-    .tag {
-      display: inline-block;
-      color: var(--cyan);
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin-bottom: 12px;
-    }
+.search {
+  margin-left: auto;
+  width: min(260px, 35%);
+  background: #172338;
+  border: 1px solid #283a56;
+  border-radius: 8px;
+  color: white;
+  padding: 11px;
+  outline: none;
+}
 
-    h1 {
-      font-size: clamp(28px, 6vw, 46px);
-      margin: 0 0 12px;
-      line-height: 1.15;
-    }
+.search:focus {
+  border-color: var(--blue);
+}
 
-    .hero p {
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
+.layout {
+  display: grid;
+  grid-template-columns: 205px minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1450px;
+  margin: auto;
+  padding: 25px;
+}
 
-    button, .youtube-link {
-      display: inline-block;
-      border: 0;
-      border-radius: 8px;
-      padding: 13px 20px;
-      background: var(--blue);
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
-      text-decoration: none;
-      cursor: pointer;
-    }
+.sidebar {
+  background: #0c1422;
+  border: 1px solid #192a42;
+  border-radius: 12px;
+  padding: 18px 12px;
+  height: fit-content;
+}
 
-    button:active, .youtube-link:active {
-      transform: scale(0.98);
-    }
+.side-title {
+  color: #7489a5;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  margin: 12px 10px;
+}
 
-    .section-title {
-      font-size: 21px;
-      margin: 26px 0 15px;
-    }
+.side-link {
+  display: block;
+  color: #c1cee0;
+  text-decoration: none;
+  padding: 12px 10px;
+  border-radius: 7px;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
 
-    .player-card {
-      padding: 12px;
-      background: var(--panel);
-      border: 1px solid #172c49;
-      border-radius: 14px;
-    }
+.side-link:hover,
+.side-link.active {
+  color: white;
+  background: #12335a;
+}
 
-    .player {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border-radius: 9px;
-      overflow: hidden;
-    }
+.side-link.active {
+  border-left: 3px solid var(--cyan);
+}
 
-    .player iframe {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      inset: 0;
-      border: 0;
-    }
+main {
+  min-width: 0;
+}
 
-    .video-info {
-      padding: 10px 4px 2px;
-    }
+.breadcrumb {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 17px;
+}
 
-    .video-info h2 {
-      font-size: 19px;
-      margin: 8px 0;
-    }
+.breadcrumb span {
+  color: var(--cyan);
+}
 
-    .video-info p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
+.anime-heading {
+  margin: 0 0 7px;
+  font-size: clamp(23px, 4vw, 32px);
+}
 
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
+.description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 8px 0 20px;
+}
 
-    .secondary {
-      background: #13233b;
-      border: 1px solid #24446b;
-    }
+/* Responsive 16:9 video */
+.player-shell {
+  width: 100%;
+  background: #000;
+  border: 1px solid #243752;
+  border-radius: 12px;
+  overflow: hidden;
+}
 
-    .notice {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-      margin-top: 16px;
-    }
+.player-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #101a2b;
+  font-size: 13px;
+}
 
-    footer {
-      text-align: center;
-      padding: 25px 15px;
-      color: #71839e;
-      border-top: 1px solid #152641;
-      font-size: 12px;
-    }
+.live-label {
+  color: var(--cyan);
+  font-weight: bold;
+}
 
-    @media (max-width: 480px) {
-      header {
-        padding: 15px;
-      }
+.player-stage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+  background: #000;
+}
 
-      .logo {
-        font-size: 19px;
-      }
+.player-stage iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 
-      main {
-        padding: 18px 12px 30px;
-      }
+.player-controls {
+  padding: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #101a2b;
+}
 
-      .hero {
-        padding: 22px 16px;
-      }
-    }
-  </style>
+button, .button {
+  border: 0;
+  border-radius: 7px;
+  background: var(--blue);
+  color: white;
+  padding: 11px 15px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button:hover, .button:hover {
+  background: #0876e5;
+}
+
+.secondary {
+  background: #1a2940;
+  border: 1px solid #2a4262;
+}
+
+.secondary:hover {
+  background: #243c5c;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.section-heading {
+  margin: 30px 0 14px;
+  font-size: 19px;
+}
+
+.episode-panel {
+  background: #101a2b;
+  border: 1px solid #1b2d46;
+  border-radius: 10px;
+  padding: 17px;
+}
+
+.episode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.episode-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.episode-header p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.episode-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.episode {
+  background: #192840;
+  border: 1px solid #283e5d;
+  color: white;
+  min-width: 105px;
+}
+
+.episode.selected {
+  background: #123f70;
+  border-color: var(--cyan);
+}
+
+.notice {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 18px;
+}
+
+footer {
+  text-align: center;
+  color: #788aa2;
+  padding: 25px 15px;
+  border-top: 1px solid #1b2b43;
+  font-size: 12px;
+}
+
+/* Actual browser fullscreen */
+.player-shell:fullscreen {
+  border: 0;
+  border-radius: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.player-shell:fullscreen .player-stage {
+  flex: 1;
+  min-height: 0;
+  aspect-ratio: auto;
+}
+
+.player-shell:fullscreen .player-top,
+.player-shell:fullscreen .player-controls {
+  flex-shrink: 0;
+}
+
+.player-shell:fullscreen iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.player-shell:fullscreen .player-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 850px) {
+  .layout {
+    grid-template-columns: 1fr;
+    padding: 16px;
+  }
+
+  .sidebar {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 9px;
+  }
+
+  .side-title {
+    display: none;
+  }
+
+  .side-link {
+    white-space: nowrap;
+    margin: 0;
+    padding: 10px;
+  }
+
+  nav {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    height: 58px;
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 19px;
+  }
+
+  .search {
+    width: 42%;
+    padding: 9px;
+    font-size: 12px;
+  }
+
+  .layout {
+    padding: 14px 10px;
+    gap: 14px;
+  }
+
+  .player-shell {
+    border-radius: 8px;
+  }
+
+  .player-top {
+    padding: 10px;
+    font-size: 11px;
+  }
+
+  .player-controls {
+    padding: 10px;
+  }
+
+  .player-controls button {
+    padding: 10px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">N-ARKED <span>ANIME</span></div>
-    <div class="header-tag">STREAM YOUR WORLD</div>
-  </header>
+<header>
+  <div class="logo">N-ARKED<span> ANIME</span></div>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#watch">Watch</a>
+    <a href="#episodes">Episodes</a>
+  </nav>
+
+  <input
+    class="search"
+    id="search"
+    type="search"
+    placeholder="Search anime..."
+    aria-label="Search anime">
+</header>
+
+<div class="layout" id="home">
+
+  <aside class="sidebar">
+    <a class="side-link active" href="#home">Home</a>
+    <a class="side-link" href="#watch">Watch Anime</a>
+    <a class="side-link" href="#episodes">Episodes</a>
+    <a class="side-link" href="#about">About</a>
+  </aside>
 
   <main>
+    <div class="breadcrumb">
+      Home / Anime / <span>Watch</span>
+    </div>
 
-    <section class="hero">
-      <div class="tag">YOUR ANIME DESTINATION</div>
+    <h1 class="anime-heading">Anime Streaming</h1>
 
-      <h1>Enter the Anime Universe.</h1>
+    <p class="description">
+      Watch your featured video in a cinematic player.
+      Choose widescreen or fullscreen for a bigger viewing experience.
+    </p>
 
-      <p>
-        Discover your next adventure.
-        Watch videos in a futuristic streaming interface
-        designed for anime fans.
-      </p>
+    <section id="watch">
 
-      <button id="exploreBtn">▶ WATCH NOW</button>
-    </section>
+      <div class="player-shell" id="playerShell">
 
-    <h2 class="section-title">Featured Video</h2>
+        <div class="player-top">
+          <span>N-ARKED PLAYER</span>
+          <span class="live-label">● READY TO PLAY</span>
+        </div>
 
-    <section class="player-card" id="watch">
+        <div class="player-stage" id="playerStage">
+          <iframe
+            id="videoPlayer"
+            src="https://www.youtube-nocookie.com/embed/1AQtGDYVs7k?rel=0"
+            title="Anime video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
 
-      <div class="player">
-        <iframe
-          id="animePlayer"
-          src="https://www.youtube-nocookie.com/embed/1AQtGDYVs7k?rel=0"
-          title="Featured YouTube video"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen>
-        </iframe>
+        <div class="player-controls">
+          <button id="playButton">▶ Play Video</button>
+          <button class="secondary" id="fullscreenButton">
+            ⛶ Fullscreen
+          </button>
+        </div>
+
       </div>
 
-      <div class="video-info">
-        <div class="tag">FEATURED • YOUTUBE</div>
+      <p class="hint">
+        Video ratio: 16:9 · Fullscreen uses your device's available screen.
+      </p>
 
-        <h2>Your Featured Anime Video</h2>
+    </section>
 
-        <p>
-          Play the featured video directly in the player.
-          Use the YouTube controls to adjust playback
-          and enter full-screen mode.
-        </p>
+    <section id="episodes">
+      <h2 class="section-heading">Video Selection</h2>
 
-        <div class="actions">
-          <button id="playBtn">▶ PLAY VIDEO</button>
+      <div class="episode-panel">
+        <div class="episode-header">
+          <h3>Featured Video</h3>
+          <p>Source: YouTube</p>
+        </div>
+
+        <div class="episode-list">
+          <button class="episode selected" id="videoOne">
+            Video 01
+          </button>
 
           <a
-            class="youtube-link secondary"
+            class="button secondary"
             href="https://youtu.be/1AQtGDYVs7k?si=jd8fTj7f6krRzAyU"
             target="_blank"
             rel="noopener noreferrer">
-            OPEN ON YOUTUBE ↗
+            Open on YouTube ↗
           </a>
         </div>
 
         <p class="notice">
-          If playback is unavailable here, open the video on YouTube.
-          Some videos do not allow embedded playback.
+          Only the supplied video is configured. Additional episodes
+          require their own video links.
         </p>
       </div>
+    </section>
 
+    <section id="about">
+      <h2 class="section-heading">About N-ARKED ANIME</h2>
+      <p class="description">
+        A dark, futuristic anime streaming interface with responsive
+        playback controls and an immersive viewing layout.
+      </p>
     </section>
 
   </main>
+</div>
 
-  <footer>
-    N-ARKED ANIME © 2026 · PLAY BEYOND. BREAK LIMITS.
-  </footer>
+<footer>
+  N-ARKED ANIME · PLAY BEYOND. BREAK LIMITS.
+</footer>
 
-  <script>
-    const watchSection = document.getElementById("watch");
+<script>
+const player = document.getElementById("videoPlayer");
+const shell = document.getElementById("playerShell");
+const stage = document.getElementById("playerStage");
+const fullscreenButton = document.getElementById("fullscreenButton");
 
-    document.getElementById("exploreBtn").addEventListener("click", () => {
-      watchSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+document.getElementById("playButton").addEventListener("click", () => {
+  player.src =
+    "https://www.youtube-nocookie.com/embed/1AQtGDYVs7k?autoplay=1&rel=0";
+});
+
+fullscreenButton.addEventListener("click", async () => {
+  try {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+    } else if (shell.requestFullscreen) {
+      await shell.requestFullscreen();
+    } else if (player.requestFullscreen) {
+      await player.requestFullscreen();
+    } else {
+      alert("Fullscreen is not supported by this browser.");
+    }
+  } catch (error) {
+    // If fullscreen is blocked, YouTube's own fullscreen control
+    // inside the player may still be available.
+    alert("Fullscreen was blocked. Try the fullscreen control inside the video.");
+  }
+});
+
+document.addEventListener("fullscreenchange", () => {
+  fullscreenButton.textContent = document.fullscreenElement
+    ? "⛶ Exit Fullscreen"
+    : "⛶ Fullscreen";
+});
+
+document.getElementById("videoOne").addEventListener("click", () => {
+  player.src =
+    "https://www.youtube-nocookie.com/embed/1AQtGDYVs7k?rel=0";
+});
+
+document.getElementById("search").addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && event.target.value.trim()) {
+    const query = event.target.value.trim();
+    document.getElementById("watch").scrollIntoView({
+      behavior: "smooth"
     });
-
-    document.getElementById("playBtn").addEventListener("click", () => {
-      const player = document.getElementById("animePlayer");
-
-      player.src =
-        "https://www.youtube-nocookie.com/embed/1AQtGDYVs7k?autoplay=1&rel=0";
-
-      watchSection.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    });
-  </script>
+    event.target.value = "";
+    // This demo has one configured video, not a searchable catalogue.
+    alert('No catalogue is configured yet for: ' + query);
+  }
+});
+</script>
 
 </body>
   </html>
