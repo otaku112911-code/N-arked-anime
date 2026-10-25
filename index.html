@@ -2,227 +2,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050914">
-<title>N-ARKED ARCADE | Play Beyond</title>
-<style>
-:root{--bg:#050914;--panel:#0a1222;--panel2:#0e1b30;--blue:#168cff;--cyan:#54d9ff;--text:#f2f7ff;--muted:#8b9db7;--border:#172b48}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif}
-button,input{font:inherit}
-button{cursor:pointer}
-button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
-a{color:inherit;text-decoration:none}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:225px;flex-shrink:0;background:#070d19;border-right:1px solid var(--border);padding:24px 15px;position:fixed;inset:0 auto 0 0;overflow:auto;z-index:5}
-.brand{display:flex;align-items:center;gap:11px;padding:0 7px 28px;font-weight:900;font-size:18px;letter-spacing:1px}
-.logo{width:39px;height:39px;display:grid;place-items:center;background:linear-gradient(135deg,#087aff,#51d8ff);border-radius:12px;color:white;box-shadow:0 0 22px #168cff60;font-size:21px}
-.small-label{font-size:10px;letter-spacing:2px;color:#607794;font-weight:800;margin:22px 9px 10px}
-.nav{display:flex;align-items:center;gap:12px;padding:12px 11px;border-radius:10px;color:var(--muted);font-size:13px;margin:3px 0;transition:.2s}
-.nav:hover,.nav.active{background:#102544;color:#fff}
-.nav.active{box-shadow:inset 3px 0 var(--cyan)}
-.nav .ico{width:21px;text-align:center;font-size:17px}
-.sidebar-note{margin-top:28px;padding:15px;background:linear-gradient(145deg,#102344,#09101e);border:1px solid #1d4268;border-radius:13px;font-size:12px;color:var(--muted);line-height:1.6}
-.sidebar-note b{color:#fff;display:block;margin-bottom:5px}
-main{width:calc(100% - 225px);margin-left:225px;min-width:0}
-.topbar{height:75px;padding:0 30px;display:flex;align-items:center;gap:20px;border-bottom:1px solid var(--border);background:#050914ed;position:sticky;top:0;z-index:4;backdrop-filter:blur(16px)}
-.mobile-brand{display:none;font-weight:900;white-space:nowrap}
-.search{max-width:520px;flex:1;position:relative}
-.search input{width:100%;padding:13px 75px 13px 42px;background:#0b1526;border:1px solid #1a2d48;border-radius:11px;color:#fff;outline:none}
-.search input:focus{border-color:var(--blue);box-shadow:0 0 18px #168cff20}
-.search-icon{position:absolute;left:14px;top:11px;color:var(--muted)}
-.shortcut{position:absolute;right:10px;top:10px;border:1px solid #263852;border-radius:5px;padding:3px 6px;color:var(--muted);font-size:10px}
-.top-spacer{flex:1}
-.status{font-size:11px;color:#7fa8c9;white-space:nowrap}
-.status span{display:inline-block;width:7px;height:7px;background:#39d6a2;border-radius:50%;margin-right:6px}
-.icon-btn{border:1px solid var(--border);background:#0c1728;color:#dcecff;border-radius:10px;padding:10px}
-.content{max-width:1500px;margin:auto;padding:27px 30px 60px}
-.hero{min-height:275px;position:relative;overflow:hidden;border:1px solid #17477a;border-radius:19px;padding:35px;display:flex;align-items:center;background:radial-gradient(ellipse at 80% 45%,#0955a777,transparent 35%),linear-gradient(110deg,#0d2342,#08101f 70%);box-shadow:inset 0 0 45px #168cff0b}
-.hero:before{content:"";position:absolute;width:270px;height:270px;right:10%;top:0;border:1px solid #1c8eff55;border-radius:50%;box-shadow:0 0 0 25px #168cff0a,0 0 0 55px #168cff08}
-.hero-art{position:absolute;right:7%;font-size:clamp(90px,15vw,170px);filter:drop-shadow(0 0 25px #168cff80);transform:rotate(-9deg);opacity:.92}
-.hero-copy{position:relative;z-index:1;max-width:540px}
-.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:3px;font-weight:900}
-.hero h1{font-size:clamp(32px,4.4vw,56px);line-height:1.04;letter-spacing:-2px;margin:15px 0}
-.hero h1 em{font-style:normal;color:var(--cyan);text-shadow:0 0 25px #168cff65}
-.hero p{font-size:13px;line-height:1.8;color:#9db1cb;max-width:390px}
-.primary{background:linear-gradient(100deg,#087aff,#20b7ff);color:white;border:0;border-radius:9px;padding:12px 19px;font-size:12px;font-weight:800;box-shadow:0 0 20px #168cff32}
-.primary:hover{filter:brightness(1.15);transform:translateY(-1px)}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:32px 0 16px}
-.section-head h2{font-size:18px;margin:0;letter-spacing:-.4px}
-.section-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
-.view-all{font-size:11px;color:var(--cyan);background:none;border:0}
-.chips{display:flex;gap:8px;overflow:auto;padding:2px 0 8px;scrollbar-width:thin}
-.chip{white-space:nowrap;background:#0a1424;color:#8fa6c2;border:1px solid #1a2a43;border-radius:9px;padding:9px 14px;font-size:11px}
-.chip:hover,.chip.active{background:#102b4b;color:white;border-color:#168cff}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
-.game-card{position:relative;min-width:0;overflow:hidden;background:var(--panel);border:1px solid var(--border);border-radius:13px;cursor:pointer;transition:transform .22s,border-color .22s,box-shadow .22s}
-.game-card:hover{transform:translateY(-4px);border-color:#168cff;box-shadow:0 0 23px #168cff20}
-.game-card.featured{grid-column:span 2}
-.art{height:145px;position:relative;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 60%,var(--glow,#124e91),transparent 65%),linear-gradient(140deg,#142c4a,#080e1b)}
-.featured .art{height:195px}
-.art:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 23px,#63caff09 24px),repeating-linear-gradient(90deg,transparent 0 23px,#63caff08 24px)}
-.art-icon{font-size:69px;position:relative;filter:drop-shadow(0 0 16px var(--glow,#168cff));transition:transform .25s}
-.game-card:hover .art-icon{transform:scale(1.12)}
-.featured .art-icon{font-size:94px}
-.play-overlay{position:absolute;inset:0;display:grid;place-items:center;background:#02081775;opacity:0;transition:.2s}
-.play-circle{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#168cff;color:white;box-shadow:0 0 25px #168cff;font-size:20px}
-.game-card:hover .play-overlay{opacity:1}
-.tag{position:absolute;top:10px;left:10px;padding:5px 8px;border-radius:5px;background:#071323df;border:1px solid #294766;color:#8ee7ff;font-size:9px;font-weight:800}
-.card-info{padding:12px}
-.card-title{font-size:12px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card-meta{display:flex;justify-content:space-between;align-items:center;gap:5px;color:var(--muted);font-size:10px;margin-top:8px}
-.heart{background:none;border:0;color:#8196b0;padding:0;font-size:16px}
-.heart.liked{color:#ff6695}
-.empty{grid-column:1/-1;text-align:center;padding:45px;color:var(--muted);border:1px dashed var(--border);border-radius:12px}
-.footer{border-top:1px solid var(--border);padding:25px 30px;color:#647b98;font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.modal{position:fixed;inset:0;background:#020611ed;z-index:10;display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}
-.modal.open{display:flex}
-.theater{width:min(900px,100%);background:#091321;border:1px solid #1d4268;border-radius:16px;overflow:hidden;box-shadow:0 0 60px #168cff20}
-.theater-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--border)}
-.theater-head h2{font-size:16px;margin:0}
-.close{background:#142238;border:1px solid #2a4260;color:white;border-radius:8px;padding:8px 12px}
-.game-screen{min-height:260px;display:grid;place-items:center;text-align:center;padding:25px;background:radial-gradient(ellipse at center,#10365b,#050914 70%)}
-.game-screen .big{font-size:75px;filter:drop-shadow(0 0 20px #168cff)}
-.game-screen p{color:#9db1cb;font-size:12px;line-height:1.7}
-.theater-actions{display:flex;flex-wrap:wrap;gap:8px;padding:14px}
-.theater-actions button{background:#102038;border:1px solid #244262;color:#d9edff;border-radius:8px;padding:9px 12px;font-size:11px}
-.light{--bg:#edf4fc;--panel:#fff;--panel2:#e6eef9;--text:#101e34;--muted:#546981;--border:#cedaea}
-.light .sidebar,.light .topbar{background:#edf4fc}
-.light .search input,.light .chip,.light .icon-btn{background:#fff;color:#24364e}
-.light .hero{background:linear-gradient(110deg,#dbeaff,#f6faff)}
-.light .hero p{color:#526981}
-.light .hero h1{color:#132746}
-.light .game-card{background:#fff}
-@media(min-width:1450px){.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
-@media(max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.sidebar{width:190px}main{width:calc(100% - 190px);margin-left:190px}.content{padding:22px}.topbar{padding:0 22px}.hero-art{right:3%}}
-@media(max-width:700px){.sidebar{display:none}main{width:100%;margin-left:0}.topbar{height:64px;padding:0 13px;gap:10px}.mobile-brand{display:block;font-size:13px}.mobile-brand .blue{color:var(--cyan)}.status{display:none}.content{padding:17px 13px 40px}.hero{min-height:260px;padding:24px 19px}.hero-art{right:-15px;top:38px;font-size:105px;opacity:.42}.hero-copy{max-width:100%}.hero h1{font-size:37px}.hero p{max-width:300px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.game-card.featured{grid-column:span 2}.art{height:120px}.featured .art{height:160px}.art-icon{font-size:55px}.featured .art-icon{font-size:75px}.section-head{margin-top:25px}.footer{padding:20px 14px}.shortcut{display:none}.search input{padding-right:10px}.search{min-width:70px}.topbar .icon-btn{padding:8px}}
-@media(max-width:370px){.grid{grid-template-columns:1fr}.game-card.featured{grid-column:span 1}.featured .art{height:145px}.mobile-brand{font-size:11px}.hero h1{font-size:32px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050914">
+
+  <title>N-ARKED | Anime Streaming</title>
+
+  <style>
+    :root {
+      --bg: #050914;
+      --panel: #0b1425;
+      --blue: #168cff;
+      --cyan: #54d9ff;
+      --text: #f4f8ff;
+      --muted: #9aabc4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 6%;
+      background: #080e1b;
+      border-bottom: 1px solid #152641;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 900;
+      color: var(--cyan);
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: white;
+    }
+
+    .header-tag {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    main {
+      width: 100%;
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 16px 45px;
+    }
+
+    .hero {
+      padding: 28px 22px;
+      border: 1px solid #143a64;
+      border-radius: 18px;
+      background:
+        radial-gradient(ellipse at top right,
+          #103b70 0%, transparent 55%),
+        linear-gradient(135deg, #0b172c, #050914);
+      margin-bottom: 25px;
+    }
+
+    .tag {
+      display: inline-block;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 46px);
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    button, .youtube-link {
+      display: inline-block;
+      border: 0;
+      border-radius: 8px;
+      padding: 13px 20px;
+      background: var(--blue);
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:active, .youtube-link:active {
+      transform: scale(0.98);
+    }
+
+    .section-title {
+      font-size: 21px;
+      margin: 26px 0 15px;
+    }
+
+    .player-card {
+      padding: 12px;
+      background: var(--panel);
+      border: 1px solid #172c49;
+      border-radius: 14px;
+    }
+
+    .player {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 9px;
+      overflow: hidden;
+    }
+
+    .player iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      inset: 0;
+      border: 0;
+    }
+
+    .video-info {
+      padding: 10px 4px 2px;
+    }
+
+    .video-info h2 {
+      font-size: 19px;
+      margin: 8px 0;
+    }
+
+    .video-info p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+
+    .secondary {
+      background: #13233b;
+      border: 1px solid #24446b;
+    }
+
+    .notice {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 16px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      color: #71839e;
+      border-top: 1px solid #152641;
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 15px;
+      }
+
+      .logo {
+        font-size: 19px;
+      }
+
+      main {
+        padding: 18px 12px 30px;
+      }
+
+      .hero {
+        padding: 22px 16px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div class="layout">
-<aside class="sidebar">
-  <a href="#" class="brand"><span class="logo">N</span><span>N-ARKED<br><small style="font-size:10px;color:#53cfff;letter-spacing:3px">ARCADE</small></span></a>
-  <div class="small-label">DISCOVER</div>
-  <a href="#games" class="nav active" data-cat="All"><span class="ico">⌂</span> Home</a>
-  <a href="#games" class="nav" data-cat="Popular"><span class="ico">⚡</span> Popular Games</a>
-  <a href="#games" class="nav" data-cat="New"><span class="ico">✦</span> New Games</a>
-  <a href="#games" class="nav" data-cat="Favorites"><span class="ico">♡</span> My Favorites</a>
-  <div class="small-label">CATEGORIES</div>
-  <a href="#games" class="nav" data-cat="Arcade"><span class="ico">🎮</span> Arcade</a>
-  <a href="#games" class="nav" data-cat="Action"><span class="ico">⚔️</span> Action & Anime</a>
-  <a href="#games" class="nav" data-cat="Racing"><span class="ico">🏎️</span> Racing</a>
-  <a href="#games" class="nav" data-cat="Puzzle"><span class="ico">🧩</span> Puzzle & Brain</a>
-  <a href="#games" class="nav" data-cat="Sports"><span class="ico">🏆</span> Sports</a>
-  <div class="sidebar-note"><b>READY PLAYER ONE?</b>Your next adventure is waiting. Explore the arcade and find your new favorite game.</div>
-</aside>
-<main>
-<header class="topbar">
-  <div class="mobile-brand">N-ARKED <span class="blue">ARCADE</span></div>
-  <div class="search"><span class="search-icon">⌕</span><input id="search" placeholder="Search games..." aria-label="Search games"><span class="shortcut">Ctrl K</span></div>
-  <div class="top-spacer"></div>
-  <div class="status"><span></span> ARCADE ONLINE</div>
-  <button class="icon-btn" id="theme" aria-label="Toggle light and dark mode">☼</button>
-</header>
-<div class="content">
-<section class="hero">
-  <div class="hero-copy">
-    <div class="eyebrow">✦ YOUR NEXT LEVEL STARTS HERE</div>
-    <h1>PLAY <em>BEYOND.</em><br>BREAK LIMITS.</h1>
-    <p>Enter the next generation of browser gaming. Discover arcade classics, high-speed racing, epic adventures and mind-bending puzzles.</p>
-    <button class="primary" id="explore">EXPLORE GAMES&nbsp; →</button>
-  </div>
-  <div class="hero-art" aria-hidden="true">◈</div>
-</section>
-<div class="section-head"><div><h2>Explore Categories</h2><p>Choose your next adventure</p></div></div>
-<div class="chips" id="chips">
-  <button class="chip active" data-cat="All">✦ All Games</button>
-  <button class="chip" data-cat="Arcade">🎮 Arcade</button>
-  <button class="chip" data-cat="Action">⚔ Action & Anime</button>
-  <button class="chip" data-cat="Racing">🏎 Racing</button>
-  <button class="chip" data-cat="Puzzle">🧩 Puzzle</button>
-  <button class="chip" data-cat="Sports">🏆 Sports</button>
-</div>
-<div class="section-head" id="games"><div><h2 id="grid-heading">Trending Games</h2><p>Handpicked for your next gaming session</p></div><button class="view-all" id="reset">VIEW ALL ↗</button></div>
-<div class="grid" id="grid"></div>
-</div>
-<footer class="footer"><span>© 2026 N-ARKED ARCADE</span><span>PLAY BEYOND. <span style="color:#39bfff">LEVEL UP.</span></span><span>Built for players.</span></footer>
-</main>
-</div>
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="theater">
-    <div class="theater-head"><h2 id="modal-title">Game Theater</h2><button class="close" id="close">✕ Close</button></div>
-    <div class="game-screen" id="screen"><div><div class="big">🎮</div><h3 id="screen-title">Your next game</h3><p id="screen-desc">This game slot is ready for a playable game to be connected.</p><button class="primary" id="play-snake">PLAY NEON SNAKE</button></div></div>
-    <div class="theater-actions"><button id="fullscreen">⛶ Fullscreen</button><button id="like">♡ Favorite</button><button id="mute">♪ Sound: On</button><button id="report">⚑ Report</button></div>
-  </div>
-</div>
-<script>
-const games=[
-{title:"Neon Snake",cat:"Arcade",icon:"🐍",glow:"#087dff",tag:"PLAYABLE",desc:"A classic arcade snake challenge.",featured:true,playable:true},
-{title:"Anime Arena",cat:"Action",icon:"⚔️",glow:"#235bff",tag:"FEATURED",featured:true,desc:"Anime-inspired battle game concept."},
-{title:"Nitro Rush",cat:"Racing",icon:"🏎️",glow:"#008bd1",tag:"RACING",desc:"High-speed racing game concept."},
-{title:"Cyber Blocks",cat:"Puzzle",icon:"🧊",glow:"#00a5d8",tag:"BRAIN",desc:"A futuristic block puzzle concept."},
-{title:"Pixel Invaders",cat:"Arcade",icon:"👾",glow:"#365cff",tag:"ARCADE",desc:"Retro-inspired arcade action."},
-{title:"Shadow Ninja",cat:"Action",icon:"🥷",glow:"#1744a8",tag:"ACTION",desc:"A stealth adventure game concept."},
-{title:"Drift Legends",cat:"Racing",icon:"🏁",glow:"#0678b8",tag:"RACING",desc:"Master the art of drifting."},
-{title:"Mind Matrix",cat:"Puzzle",icon:"🔷",glow:"#226aff",tag:"BRAIN",desc:"Test your logic and pattern skills."},
-{title:"Cosmic Hoops",cat:"Sports",icon:"🏀",glow:"#087dca",tag:"SPORTS",desc:"A futuristic basketball game concept."},
-{title:"Dungeon Quest",cat:"Action",icon:"🗡️",glow:"#4337be",tag:"ADVENTURE",desc:"Explore a fantasy dungeon."},
-{title:"Turbo Track",cat:"Racing",icon:"🚘",glow:"#0078bb",tag:"RACING",desc:"Race across futuristic tracks."},
-{title:"Memory Grid",cat:"Puzzle",icon:"🧠",glow:"#1168ca",tag:"BRAIN",desc:"A memory matching challenge."},
-{title:"Space Blaster",cat:"Arcade",icon:"🚀",glow:"#075cbb",tag:"ARCADE",desc:"Defend the galaxy in this arcade concept."},
-{title:"Samurai Rise",cat:"Action",icon:"⚡",glow:"#164fdb",tag:"ACTION",desc:"An anime-inspired adventure concept."},
-{title:"Neon Football",cat:"Sports",icon:"⚽",glow:"#007dbe",tag:"SPORTS",desc:"Futuristic football action."},
-{title:"Color Shift",cat:"Puzzle",icon:"🎨",glow:"#355bff",tag:"PUZZLE",desc:"Match colors and solve puzzles."},
-{title:"Sky Racer",cat:"Racing",icon:"✈️",glow:"#128ed1",tag:"RACING",desc:"Fly through a futuristic racecourse."},
-{title:"Robo Clash",cat:"Action",icon:"🤖",glow:"#1450c5",tag:"ACTION",desc:"Robot combat game concept."},
-{title:"Jewel Quest",cat:"Puzzle",icon:"💎",glow:"#0879d9",tag:"PUZZLE",desc:"A gem-matching puzzle concept."},
-{title:"Cyber Hoops",cat:"Sports",icon:"🏆",glow:"#1255bd",tag:"SPORTS",desc:"Aim, shoot and score in this sports concept."}
-];
-let category="All",favorites=new Set(),current=null;
-const grid=document.getElementById("grid"),search=document.getElementById("search"),modal=document.getElementById("modal");
-function render(){
- const q=search.value.trim().toLowerCase();
- let list=games.filter(g=>(category==="All"||category==="Popular"||category==="New"||g.cat===category||(category==="Favorites"&&favorites.has(g.title)))&&(!q||(g.title+" "+g.cat+" "+g.desc).toLowerCase().includes(q)));
- if(category==="Popular")list=list.slice(0,8);
- if(category==="New")list=list.slice().reverse().slice(0,8);
- document.getElementById("grid-heading").textContent=category==="All"?"Trending Games":category==="Favorites"?"My Favorites":category==="New"?"New Games":category==="Popular"?"Popular Games":category+" Games";
- grid.innerHTML="";
- if(!list.length){grid.innerHTML='<div class="empty">No games found. Try another search or category.</div>';return}
- list.forEach((g,i)=>{
-  const card=document.createElement("article");
-  card.className="game-card"+(g.featured&&category==="All"&&!q?" featured":"");
-  card.innerHTML='<div class="art" style="--glow:'+g.glow+'"><span class="tag">'+g.tag+'</span><span class="art-icon">'+g.icon+'</span><div class="play-overlay"><span class="play-circle">▶</span></div></div><div class="card-info"><div class="card-title"></div><div class="card-meta"><span></span><button class="heart '+(favorites.has(g.title)?"liked":"")+'" aria-label="Toggle favorite">'+(favorites.has(g.title)?"♥":"♡")+'</button></div></div>';
-  card.querySelector(".card-title").textContent=g.title;
-  card.querySelector(".card-meta span").textContent=g.cat;
-  card.querySelector(".heart").addEventListener("click",e=>{e.stopPropagation();favorites.has(g.title)?favorites.delete(g.title):favorites.add(g.title);render()});
-  card.addEventListener("click",()=>openGame(g));
-  grid.appendChild(card);
- });
-}
-function setCategory(cat){
- category=cat;
- document.querySelectorAll("[data-cat]").forEach(el=>el.classList.toggle("active",el.dataset.cat===cat));
- render();
-}
-document.querySelectorAll("[data-cat]").forEach(el=>el.addEventListener("click",e=>{e.preventDefault();setCategory(el.dataset.cat);document.getElementById("games").scrollIntoView({behavior:"smooth"})}));
-search.addEventListener("input",render);
-document.getElementById("reset").onclick=()=>{search.value="";setCategory("All")};
-document.getElementById("explore").onclick=()=>document.getElementById("games").scrollIntoView({behavior:"smooth"});
-document.getElementById("theme").onclick=()=>document.body.classList.toggle("light");
-document.addEventListener("keydown",e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="k"){e.preventDefault();search.focus()}if(e.key==="Escape")closeGame()});
-function openGame(g){
- current=g;
- document.getElementById("modal-title").textContent=g.title;
- document.getElementById("screen-title").textContent=g.title;
- document.getElementById("screen-desc").textContent=g.desc;
- document.getElementById("play-snake").style.display=g.playable?"inline-block":"none";
- document.getElementById("like").textContent=favorites.has(g.title)?"♥ Favorited":"♡ Favorite";
- modal.classList.add("open");
-}
-function closeGame(){modal.classList.remove("open");document.getElementById("screen").innerHTML='<div><div class="big">🎮</div><h3 id="screen-title">Your next game</h3><p id="screen-desc">This game slot is ready for a playable game to be connected.</p><button class="primary" id="play-snake">PLAY NEON SNAKE</button></div>';document.getElementById("play-snake").onclick=launchSnake}
-document.getElementById("close").onclick=closeGame;
-modal.addEventListener("click",e=>{if(e.target===modal)closeGame()});
-document.getElementById("like").onclick=()=>{if(!current)return;favorites.has(current.title)?favorites.delete(current.title):favorites.add(current.title);document.getElementById("like").textContent=favorites.has(current.title)?"♥ Favorited":"♡ Favorite";render()};
-document.getElementById("mute").onclick=e=>e.curr
+
+  <header>
+    <div class="logo">N-ARKED <span>ANIME</span></div>
+    <div class="header-tag">STREAM YOUR WORLD</div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="tag">YOUR ANIME DESTINATION</div>
+
+      <h1>Enter the Anime Universe.</h1>
+
+      <p>
+        Discover your next adventure.
+        Watch videos in a futuristic streaming interface
+        designed for anime fans.
+      </p>
+
+      <button id="exploreBtn">▶ WATCH NOW</button>
+    </section>
+
+    <h2 class="section-title">Featured Video</h2>
+
+    <section class="player-card" id="watch">
+
+      <div class="player">
+        <iframe
+          id="animePlayer"
+          src="https://www.youtube-nocookie.com/embed/1AQtGDYVs7k?rel=0"
+          title="Featured YouTube video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="video-info">
+        <div class="tag">FEATURED • YOUTUBE</div>
+
+        <h2>Your Featured Anime Video</h2>
+
+        <p>
+          Play the featured video directly in the player.
+          Use the YouTube controls to adjust playback
+          and enter full-screen mode.
+        </p>
+
+        <div class="actions">
+          <button id="playBtn">▶ PLAY VIDEO</button>
+
+          <a
+            class="youtube-link secondary"
+            href="https://youtu.be/1AQtGDYVs7k?si=jd8fTj7f6krRzAyU"
+            target="_blank"
+            rel="noopener noreferrer">
+            OPEN ON YOUTUBE ↗
+          </a>
+        </div>
+
+        <p class="notice">
+          If playback is unavailable here, open the video on YouTube.
+          Some videos do not allow embedded playback.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    N-ARKED ANIME © 2026 · PLAY BEYOND. BREAK LIMITS.
+  </footer>
+
+  <script>
+    const watchSection = document.getElementById("watch");
+
+    document.getElementById("exploreBtn").addEventListener("click", () => {
+      watchSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+
+    document.getElementById("playBtn").addEventListener("click", () => {
+      const player = document.getElementById("animePlayer");
+
+      player.src =
+        "https://www.youtube-nocookie.com/embed/1AQtGDYVs7k?autoplay=1&rel=0";
+
+      watchSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    });
+  </script>
+
+</body>
+  </html>
+  
