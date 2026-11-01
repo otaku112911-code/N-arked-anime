@@ -3,881 +3,960 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050914">
-<title>N-ARKED MUSIC | Beyond Sound</title>
+<title>N-ARKED CHESS | Play Beyond</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
 
 <style>
 :root {
   --bg: #050914;
-  --panel: #0a1222;
+  --panel: #0b1425;
   --panel2: #101e33;
   --blue: #168cff;
   --cyan: #54d9ff;
-  --text: #f3f7ff;
-  --muted: #91a4bf;
-  --border: rgba(84,217,255,.16);
+  --text: #edf5ff;
+  --muted: #8495ad;
+  --border: #1c3452;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
-  margin: 0;
-  color: var(--text);
   background:
-    radial-gradient(ellipse at 75% 0%, #102448 0%, transparent 38%),
+    radial-gradient(ellipse at top, #102b50 0%, transparent 55%),
     var(--bg);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  font-family: Arial, sans-serif;
   min-height: 100vh;
 }
 
-button, input { font: inherit; }
-button { cursor: pointer; }
-
-button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 3px;
+button, select {
+  font: inherit;
 }
 
 header {
   height: 70px;
-  padding: 0 5%;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 24px;
+  padding: 0 5%;
+  background: rgba(5,9,20,.95);
   border-bottom: 1px solid var(--border);
-  background: rgba(5,9,20,.94);
   position: sticky;
   top: 0;
-  z-index: 5;
-  backdrop-filter: blur(15px);
+  z-index: 10;
 }
 
 .logo {
+  font-size: 23px;
   font-weight: 900;
-  letter-spacing: 1.8px;
-  white-space: nowrap;
-  font-size: 20px;
-}
-.logo span { color: var(--cyan); }
-
-.search {
-  width: min(420px, 48%);
-  margin-left: auto;
-  padding: 12px 15px;
-  color: white;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-}
-
-.search::placeholder { color: #778aa5; }
-
-.layout {
-  display: grid;
-  grid-template-columns: 205px minmax(0,1fr);
-  min-height: calc(100vh - 70px);
-}
-
-.sidebar {
-  padding: 25px 13px 120px;
-  border-right: 1px solid var(--border);
-  background: rgba(7,13,25,.8);
-}
-
-.side-label {
-  color: var(--muted);
-  font-size: 10px;
   letter-spacing: 2px;
-  margin: 18px 10px 12px;
 }
 
-.nav {
-  width: 100%;
-  padding: 13px 12px;
-  margin: 2px 0;
-  text-align: left;
-  border: 0;
-  border-radius: 9px;
-  color: var(--muted);
-  background: transparent;
+.logo span {
+  color: var(--cyan);
 }
 
-.nav:hover, .nav.active {
+.header-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.header-right button,
+.control-btn {
+  background: var(--panel2);
   color: white;
-  background: linear-gradient(90deg,#123d72,#0d1b30);
+  border: 1px solid var(--border);
+  padding: 10px 15px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.header-right button:hover,
+.control-btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
 }
 
 main {
-  min-width: 0;
-  padding: 27px 4% 150px;
+  max-width: 1150px;
+  margin: auto;
+  padding: 35px 18px;
 }
 
-.hero {
-  position: relative;
+.heading {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.heading h1 {
+  font-size: clamp(30px, 6vw, 48px);
+  letter-spacing: 3px;
+}
+
+.heading h1 span {
+  color: var(--cyan);
+}
+
+.heading p {
+  color: var(--muted);
+  margin-top: 10px;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 620px) minmax(250px, 1fr);
+  gap: 25px;
+  justify-content: center;
+}
+
+.game-area {
+  min-width: 0;
+  background: var(--panel);
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 45px #0008;
+}
+
+.player {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 5px;
+  gap: 8px;
+}
+
+.player-info {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: #142c49;
+  font-size: 21px;
+}
+
+.player-name {
+  font-weight: bold;
+}
+
+.player-desc {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+#status {
+  color: var(--cyan);
+  font-size: 12px;
+  text-align: right;
+}
+
+.board {
+  width: 100%;
+  aspect-ratio: 1;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border: 3px solid #254c75;
+  border-radius: 4px;
   overflow: hidden;
-  min-height: 320px;
+}
+
+.square {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: clamp(25px,5vw,55px);
-  border: 1px solid #1a4169;
-  border-radius: 21px;
-  background:
-    radial-gradient(circle at 82% 45%,#15569a88,transparent 30%),
-    linear-gradient(120deg,#0c172b,#081020 75%);
+  justify-content: center;
+  aspect-ratio: 1;
+  border: none;
+  cursor: pointer;
+  font-size: clamp(26px, 6vw, 65px);
+  line-height: 1;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.hero::before {
-  content: "音";
-  position: absolute;
-  right: 7%;
-  top: -45px;
-  font-size: clamp(180px,28vw,320px);
-  font-weight: 900;
-  color: #54d9ff0a;
-  pointer-events: none;
+.light { background: #c5d8e9; }
+.dark { background: #39729e; }
+
+.square.selected {
+  background: #e5d44e;
 }
 
-.hero::after {
+.square.last-move {
+  background: #a8b95a;
+}
+
+.square.legal::after {
   content: "";
   position: absolute;
-  width: 200px;
-  height: 200px;
-  right: 10%;
-  border: 1px solid #54d9ff42;
+  width: 24%;
+  height: 24%;
+  background: #123b42;
+  opacity: .65;
   border-radius: 50%;
-  box-shadow: 0 0 0 25px #54d9ff09,
-              0 0 0 55px #54d9ff06,
-              inset 0 0 55px #168cff20;
-  pointer-events: none;
 }
 
-.hero-content { z-index: 1; max-width: 530px; }
+.square.legal.capture::after {
+  width: 85%;
+  height: 85%;
+  background: transparent;
+  border: 5px solid #123b42;
+}
 
-.eyebrow {
+.white-piece {
+  color: #fff;
+  text-shadow: 1px 2px 2px #16202e, -1px -1px 1px #16202e;
+  z-index: 1;
+}
+
+.black-piece {
+  color: #17202d;
+  text-shadow: 0 1px 1px #fff8;
+  z-index: 1;
+}
+
+.coordinates {
+  position: absolute;
   font-size: 10px;
-  color: var(--cyan);
-  letter-spacing: 3px;
   font-weight: bold;
+  z-index: 2;
+  pointer-events: none;
+  opacity: .8;
 }
 
-h1 {
-  font-size: clamp(36px,5vw,61px);
-  line-height: 1.05;
-  letter-spacing: -2px;
-  margin: 17px 0;
+.rank {
+  top: 3px;
+  left: 4px;
 }
 
-h1 span { color: var(--cyan); }
-
-.hero p {
-  max-width: 420px;
-  color: #b2c1d7;
-  font-size: 14px;
-  line-height: 1.7;
+.file {
+  bottom: 2px;
+  right: 4px;
 }
 
-.primary {
-  color: white;
-  background: linear-gradient(110deg,#168cff,#0759cb);
-  border: 0;
-  border-radius: 10px;
-  padding: 13px 18px;
-  font-weight: bold;
-  box-shadow: 0 5px 22px #168cff20;
-}
-
-.primary:hover { filter: brightness(1.14); }
-
-.secondary {
-  color: white;
-  background: #14243b;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 15px;
-}
-
-.section-head {
+.side-panel {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 31px 0 16px;
-}
-
-h2 { font-size: 21px; margin: 0; }
-
-.sub {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 6px;
-}
-
-.filters {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 13px;
-}
-
-.filter {
-  flex-shrink: 0;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--muted);
-  border-radius: 25px;
-  padding: 9px 14px;
-}
-
-.filter.active {
-  background: #12365e;
-  color: white;
-  border-color: var(--blue);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4,minmax(0,1fr));
+  flex-direction: column;
   gap: 15px;
 }
 
-.track {
-  min-width: 0;
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid var(--border);
+.panel {
   background: var(--panel);
-  transition: transform .2s,border-color .2s;
-}
-
-.track:hover {
-  transform: translateY(-3px);
-  border-color: #54d9ff66;
-}
-
-.cover {
-  aspect-ratio: 1;
-  display: grid;
-  place-items: center;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle,var(--glow),transparent 43%),
-    linear-gradient(145deg,var(--c1),var(--c2));
-}
-
-.cover::before {
-  content: "";
-  position: absolute;
-  width: 70%;
-  aspect-ratio: 1;
-  border: 1px solid #ffffff38;
-  border-radius: 50%;
-  box-shadow: 0 0 35px var(--glow),
-              inset 0 0 30px var(--glow);
-}
-
-.symbol {
-  font-size: clamp(38px,5vw,66px);
-  font-weight: 900;
-  z-index: 1;
-  text-shadow: 0 0 25px var(--glow);
-}
-
-.cover-label {
-  position: absolute;
-  bottom: 9px;
-  left: 9px;
-  z-index: 1;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  color: #ffffffc9;
-}
-
-.track-info { padding: 12px; }
-
-.track-name {
-  font-size: 13px;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.track-anime {
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 6px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.track-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4px;
-  margin-top: 12px;
-}
-
-.genre {
-  color: var(--cyan);
-  font-size: 9px;
-  letter-spacing: 1px;
-}
-
-.card-actions { display: flex; gap: 5px; }
-
-.round {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
   border: 1px solid var(--border);
-  background: #13243a;
+  padding: 18px;
+  border-radius: 14px;
+}
+
+.panel h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.difficulty {
+  width: 100%;
+  background: #101e33;
+  border: 1px solid var(--border);
   color: white;
+  padding: 12px;
+  border-radius: 8px;
+  outline: none;
 }
 
-.round:hover { background: var(--blue); }
-
-.empty {
-  grid-column: 1/-1;
-  text-align: center;
-  padding: 35px 10px;
-  color: var(--muted);
-}
-
-.upload-box {
-  margin-top: 30px;
-  padding: 20px;
-  background: linear-gradient(120deg,#0d203a,#0a1222);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-}
-
-.upload-box h3 { margin: 0 0 8px; }
-
-.upload-box p {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.upload-actions {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-#filePicker { display: none; }
-
-.player {
-  position: fixed;
-  z-index: 10;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  min-height: 94px;
-  padding: 12px 4%;
-  display: grid;
-  grid-template-columns: minmax(0,1fr) minmax(170px,1.2fr) minmax(0,1fr);
-  align-items: center;
-  gap: 18px;
-  background: rgba(5,10,21,.97);
-  border-top: 1px solid #54d9ff38;
-  backdrop-filter: blur(18px);
-}
-
-.now-playing {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  min-width: 0;
-}
-
-.mini-cover {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg,#124b81,#0a1020);
-  border-radius: 9px;
-  color: var(--cyan);
-  font-size: 24px;
-}
-
-.now-title {
-  font-size: 12px;
-  font-weight: bold;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.now-sub {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 5px;
-}
-
-.center-controls { min-width: 0; }
-
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-
-.control {
-  color: #c5d6ec;
-  border: 0;
-  background: transparent;
-  font-size: 19px;
-  padding: 4px;
-}
-
-.control:hover { color: var(--cyan); }
-
-.control.play {
+.control-btn.primary {
   background: var(--blue);
+  border-color: var(--blue);
+  font-weight: bold;
+}
+
+.control-btn.primary:hover {
+  background: #0876df;
   color: white;
-  border-radius: 50%;
-  width: 39px;
-  height: 39px;
 }
 
-.timeline {
+.move-list {
+  height: 190px;
+  overflow-y: auto;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--muted);
-  font-size: 10px;
-  margin-top: 7px;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13px;
 }
 
-.timeline input { width: 100%; min-width: 0; }
+.move-row {
+  display: grid;
+  grid-template-columns: 30px 1fr 1fr;
+  padding: 8px;
+  border-radius: 5px;
+  background: #101e33;
+}
 
-input[type="range"] { accent-color: var(--cyan); }
+.move-number { color: var(--muted); }
+.move-row span:nth-child(2) { color: white; }
+.move-row span:nth-child(3) { color: var(--cyan); }
 
-.volume {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
+.info {
   color: var(--muted);
   font-size: 12px;
+  line-height: 1.8;
 }
 
-.volume input { width: 90px; }
+.info strong {
+  color: var(--cyan);
+}
 
-#status {
-  font-size: 11px;
+footer {
+  text-align: center;
   color: var(--muted);
-  margin-top: 8px;
-  line-height: 1.5;
+  padding: 35px 10px;
+  font-size: 12px;
+  letter-spacing: 2px;
 }
 
-@media(max-width: 1000px) {
-  .grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
-  .layout { grid-template-columns: 170px minmax(0,1fr); }
-  .player { grid-template-columns: minmax(0,1fr) auto; }
-  .volume { display: none; }
+#promotion {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #000b;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
 }
 
-@media(max-width: 650px) {
-  header {
-    height: auto;
-    min-height: 62px;
-    padding: 12px 14px;
-    gap: 10px;
-    flex-wrap: wrap;
+.promotion-box {
+  background: var(--panel);
+  border: 1px solid var(--cyan);
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+}
+
+.promotion-options {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.promotion-options button {
+  font-size: 40px;
+  padding: 10px;
+  background: #142c49;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: white;
+}
+
+#result {
+  color: var(--cyan);
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 12px;
+  min-height: 18px;
+}
+
+@media(max-width: 760px) {
+  header { padding: 0 15px; height: 60px; }
+  .logo { font-size: 18px; }
+  main { padding: 22px 10px; }
+  .game-layout { grid-template-columns: 1fr; gap: 15px; }
+  .game-area { padding: 9px; }
+  .square { font-size: clamp(28px, 10vw, 52px); }
+  .side-panel { display: grid; grid-template-columns: 1fr; }
+  .heading { margin-bottom: 18px; }
+}
+
+body:fullscreen {
+  overflow-y: auto;
+  background: var(--bg);
+}
+
+body:fullscreen main {
+  max-width: 1300px;
+}
+
+body:fullscreen .game-layout {
+  grid-template-columns: minmax(0, 680px) minmax(250px, 1fr);
+}
+
+@media(max-width: 760px) {
+  body:fullscreen .game-layout {
+    grid-template-columns: 1fr;
   }
-  .logo { font-size: 17px; }
-  .search {
-    width: 100%;
-    order: 3;
-  }
-  .layout { display: block; }
-  .sidebar {
-    display: flex;
-    gap: 5px;
-    padding: 9px 10px;
-    overflow-x: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .side-label { display: none; }
-  .nav { width: auto; flex-shrink: 0; padding: 10px; }
-  main { padding: 17px 13px 155px; }
-  .hero { min-height: 295px; padding: 24px 19px; }
-  .hero::after { right: -100px; opacity: .6; }
-  .hero::before { right: -20px; }
-  h1 { font-size: 39px; }
-  .grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 11px; }
-  .track-info { padding: 9px; }
-  .player {
-    grid-template-columns: minmax(0,1fr) auto;
-    gap: 8px;
-    padding: 10px 11px;
-  }
-  .mini-cover { width: 38px; height: 38px; }
-  .controls { gap: 6px; }
-  .control { font-size: 17px; }
-  .control.play { width: 36px; height: 36px; }
-  .center-controls { grid-column: 1/-1; grid-row: 2; }
-  .player { padding-bottom: 9px; }
 }
 </style>
 </head>
 
 <body>
+
 <header>
-  <div class="logo">N-ARKED <span>MUSIC</span></div>
-  <input id="search" class="search" type="search"
-    placeholder="Search music, anime, genre..." aria-label="Search music">
+  <div class="logo">N-ARKED <span>CHESS</span></div>
+  <div class="header-right">
+    <button onclick="toggleFullscreen()">⛶ Fullscreen</button>
+  </div>
 </header>
 
-<div class="layout">
-  <aside class="sidebar">
-    <div class="side-label">DISCOVER</div>
-    <button class="nav active" data-category="All">⌂ Home</button>
-    <button class="nav" data-category="Opening">▶ Openings</button>
-    <button class="nav" data-category="Ending">◀ Endings</button>
-    <button class="nav" data-category="Battle">⚡ Battle Themes</button>
-    <button class="nav" data-category="Lo-fi">♫ Anime Lo-fi</button>
+<main>
 
-    <div class="side-label">YOUR MUSIC</div>
-    <button class="nav" id="savedButton">♡ Saved Tracks</button>
-  </aside>
+  <div class="heading">
+    <h1>CHESS <span>ARENA</span></h1>
+    <p>Challenge your mind. Defeat the machine.</p>
+  </div>
 
-  <main>
-    <section class="hero">
-      <div class="hero-content">
-        <div class="eyebrow">YOUR SOUND. YOUR UNIVERSE.</div>
-        <h1>ENTER THE<br><span>NEON VERSE.</span></h1>
-        <p>
-          Discover your soundtrack. From high-energy battle vibes
-          to peaceful late-night listening, your music lives here.
-        </p>
-        <button class="primary" id="explore">EXPLORE MUSIC ↗</button>
+  <div class="game-layout">
+
+    <section class="game-area">
+
+      <div class="player">
+        <div class="player-info">
+          <div class="avatar">🤖</div>
+          <div>
+            <div class="player-name">N-ARKED AI</div>
+            <div class="player-desc">BLACK · COMPUTER</div>
+          </div>
+        </div>
+        <div id="bot-thinking" class="player-desc">READY</div>
       </div>
+
+      <div id="board" class="board"></div>
+
+      <div class="player">
+        <div class="player-info">
+          <div class="avatar">♟</div>
+          <div>
+            <div class="player-name">PLAYER</div>
+            <div class="player-desc">WHITE · YOU</div>
+          </div>
+        </div>
+        <div id="status">YOUR TURN</div>
+      </div>
+
+      <div id="result"></div>
+
     </section>
 
-    <section id="librarySection">
-      <div class="section-head">
-        <div>
-          <h2 id="sectionTitle">Your Music Universe</h2>
-          <div class="sub">Select a track to start your own soundtrack.</div>
+    <aside class="side-panel">
+
+      <div class="panel">
+        <h3>⚙️ AI SETTINGS</h3>
+        <select id="difficulty" class="difficulty">
+          <option value="1">Easy — Level 1</option>
+          <option value="2" selected>Normal — Level 2</option>
+          <option value="3">Hard — Level 3</option>
+        </select>
+      </div>
+
+      <div class="panel">
+        <h3>🎮 GAME CONTROLS</h3>
+        <div class="controls">
+          <button class="control-btn primary" onclick="restartGame()">↻ Restart</button>
+          <button class="control-btn" onclick="undoMove()">↶ Undo</button>
+          <button class="control-btn" onclick="flipBoard()">⇅ Flip Board</button>
+          <button class="control-btn" onclick="showHint()">✦ Hint</button>
         </div>
       </div>
 
-      <div class="filters">
-        <button class="filter active" data-filter="All">All Music</button>
-        <button class="filter" data-filter="Opening">Opening</button>
-        <button class="filter" data-filter="Ending">Ending</button>
-        <button class="filter" data-filter="Battle">Battle</button>
-        <button class="filter" data-filter="Lo-fi">Lo-fi</button>
+      <div class="panel">
+        <h3>📜 MOVE HISTORY</h3>
+        <div id="moves" class="move-list">
+          <p class="info">Your moves will appear here.</p>
+        </div>
       </div>
 
-      <div id="grid" class="grid"></div>
-      <div id="status" role="status">Choose a track to begin.</div>
-    </section>
-
-    <section class="upload-box">
-      <h3>＋ Add Your Music</h3>
-      <p>
-        Select MP3 files from your phone to play them immediately.
-        For permanent website music, upload the files to your GitHub
-        repository's music folder.
-      </p>
-      <div class="upload-actions">
-        <button class="primary" id="chooseFiles">CHOOSE MP3 FILES</button>
-        <button class="secondary" id="clearLocal">CLEAR PHONE FILES</button>
-        <input id="filePicker" type="file" accept="audio/*,.mp3" multiple>
+      <div class="panel">
+        <h3>♟ HOW TO PLAY</h3>
+        <div class="info">
+          <strong>1.</strong> You play as White.<br>
+          <strong>2.</strong> AI plays as Black.<br>
+          <strong>3.</strong> Tap a piece and select a highlighted square.<br>
+          <strong>4.</strong> Capture the opponent's king through checkmate.<br>
+          <strong>5.</strong> Use Hint to see a suggested move.
+        </div>
       </div>
-    </section>
-  </main>
+
+    </aside>
+  </div>
+</main>
+
+<footer>N-ARKED CHESS · PLAY BEYOND. BREAK LIMITS.</footer>
+
+<div id="promotion">
+  <div class="promotion-box">
+    <h3>Choose Promotion</h3>
+    <div class="promotion-options">
+      <button onclick="finishPromotion('q')">♕</button>
+      <button onclick="finishPromotion('r')">♖</button>
+      <button onclick="finishPromotion('b')">♗</button>
+      <button onclick="finishPromotion('n')">♘</button>
+    </div>
+  </div>
 </div>
 
-<footer class="player">
-  <div class="now-playing">
-    <div class="mini-cover" id="miniCover">音</div>
-    <div style="min-width:0">
-      <div class="now-title" id="nowTitle">Select a track</div>
-      <div class="now-sub" id="nowAnime">N-ARKED MUSIC</div>
-    </div>
-  </div>
-
-  <div class="center-controls">
-    <div class="controls">
-      <button class="control" id="previous" aria-label="Previous">⏮</button>
-      <button class="control play" id="play" aria-label="Play">▶</button>
-      <button class="control" id="next" aria-label="Next">⏭</button>
-    </div>
-    <div class="timeline">
-      <span id="currentTime">0:00</span>
-      <input type="range" id="progress" min="0" max="100" value="0"
-        aria-label="Track progress">
-      <span id="duration">0:00</span>
-    </div>
-  </div>
-
-  <div class="volume">
-    <span>VOL</span>
-    <input id="volume" type="range" min="0" max="1" step="0.05"
-      value="0.75" aria-label="Volume">
-  </div>
-</footer>
-
-<audio id="audio" preload="metadata"></audio>
-
 <script>
-"use strict";
+const game = new Chess();
 
-/*
-  Add your real MP3 files to the repository's music/ folder.
-  Filenames and paths are case-sensitive.
-*/
+const symbols = {
+  wk:"♔", wq:"♕", wr:"♖", wb:"♗", wn:"♘", wp:"♙",
+  bk:"♚", bq:"♛", br:"♜", bb:"♝", bn:"♞", bp:"♟"
+};
 
-const tracks = [
-  {
-    title: "Blue Horizon",
-    anime: "Shonen Opening Vibes",
-    genre: "Opening",
-    symbol: "青",
-    c1: "#073d77", c2: "#071020", glow: "#168cff",
-    src: "./music/song1.mp3"
-  },
-  {
-    title: "Crimson Resolve",
-    anime: "Ninja Battle Vibes",
-    genre: "Battle",
-    symbol: "炎",
-    c1: "#651b37", c2: "#100b20", glow: "#ff4f83",
-    src: "./music/song2.mp3"
-  },
-  {
-    title: "Moonlit Memories",
-    anime: "Emotional Ending Vibes",
-    genre: "Ending",
-    symbol: "月",
-    c1: "#293d83", c2: "#0a1027", glow: "#899dff",
-    src: "./music/song3.mp3"
-  },
-  {
-    title: "Soul Reaper",
-    anime: "Spirit Warrior Vibes",
-    genre: "Battle",
-    symbol: "斬",
-    c1: "#362079", c2: "#080d20", glow: "#a47bff",
-    src: "./music/song4.mp3"
-  },
-  {
-    title: "Grand Voyage",
-    anime: "Pirate Adventure Vibes",
-    genre: "Opening",
-    symbol: "海",
-    c1: "#087c91", c2: "#08182a", glow: "#54d9ff",
-    src: "./music/song5.mp3"
-  },
-  {
-    title: "Midnight Study",
-    anime: "Anime Lo-fi",
-    genre: "Lo-fi",
-    symbol: "夜",
-    c1: "#264b61", c2: "#0a1126", glow: "#69e5e1",
-    src: "./music/song6.mp3"
-  }
-];
+let selected = null;
+let legalMoves = [];
+let flipped = false;
+let thinking = false;
+let pendingPromotion = null;
+let lastMove = null;
 
-const audio = document.getElementById("audio");
-const grid = document.getElementById("grid");
-const search = document.getElementById("search");
-const progress = document.getElementById("progress");
-const playButton = document.getElementById("play");
+const boardElement = document.getElementById("board");
+const statusElement = document.getElementById("status");
+const resultElement = document.getElementById("result");
+const movesElement = document.getElementById("moves");
+const thinkingElement = document.getElementById("bot-thinking");
 
-let currentIndex = -1;
-let currentList = [];
-let activeFilter = "All";
-let saved = new Set();
-let savedOnly = false;
-let isSeeking = false;
-let localTracks = [];
-let objectUrls = [];
+function renderBoard() {
+  boardElement.innerHTML = "";
 
-function allTracks() {
-  return [...tracks, ...localTracks];
-}
+  const board = game.board();
 
-function visibleTracks() {
-  const query = search.value.trim().toLowerCase();
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
 
-  return allTracks().map((track, index) => ({...track, index}))
-    .filter(track => {
-      const categoryMatch =
-        activeFilter === "All" || track.genre === activeFilter;
+      const rank = flipped ? r : 7-r;
+      const file = flipped ? 7-c : c;
 
-      const searchMatch =
-        (track.title + " " + track.anime + " " + track.genre)
-          .toLowerCase().includes(query);
+      const squareName = "abcdefgh"[file] + (rank+1);
+      const piece = board[7-r][c];
 
-      const savedMatch =
-        !savedOnly || saved.has(track.src);
+      const square = document.createElement("button");
 
-      return categoryMatch && searchMatch && savedMatch;
-    });
-}
+      square.className = "square " +
+        ((rank + file) % 2 === 0 ? "light" : "dark");
 
-function render() {
-  const visible = visibleTracks();
-  currentList = visible.map(track => track.index);
-  grid.innerHTML = "";
+      square.setAttribute("aria-label", squareName);
 
-  if (!visible.length) {
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = savedOnly
-      ? "No saved tracks yet. Tap ♡ on a track to save it."
-      : "No tracks found. Try another search or category.";
-    grid.appendChild(empty);
-    return;
-  }
+      if (selected === squareName) {
+        square.classList.add("selected");
+      }
 
-  visible.forEach(track => {
-    const card = document.createElement("article");
-    card.className = "track";
+      if (lastMove &&
+          (lastMove.from === squareName || lastMove.to === squareName)) {
+        square.classList.add("last-move");
+      }
 
-    const cover = document.createElement("div");
-    cover.className = "cover";
-    cover.style.setProperty("--c1", track.c1 || "#123d72");
-    cover.style.setProperty("--c2", track.c2 || "#071020");
-    cover.style.setProperty("--glow", track.glow || "#168cff");
+      const possible = legalMoves.find(m => m.to === squareName);
 
-    const symbol = document.createElement("span");
-    symbol.className = "symbol";
-    symbol.textContent = track.symbol || "音";
+      if (possible) {
+        square.classList.add("legal");
+        if (possible.captured) square.classList.add("capture");
+      }
 
-    const label = document.createElement("span");
-    label.className = "cover-label";
-    label.textContent = "N-ARKED MUSIC";
-    cover.append(symbol, label);
+      if (piece) {
+        const span = document.createElement("span");
+        span.className = piece.color === "w" ? "white-piece" : "black-piece";
+        span.textContent = symbols[piece.color + piece.type];
+        square.appendChild(span);
+      }
 
-    const info = document.createElement("div");
-    info.className = "track-info";
+      if (file === 0) {
+        const label = document.createElement("span");
+        label.className = "coordinates rank";
+        label.textContent = rank + 1;
+        square.appendChild(label);
+      }
 
-    const title = document.createElement("div");
-    title.className = "track-name";
-    title.textContent = track.title;
+      if (rank === 0) {
+        const label = document.createElement("span");
+        label.className = "coordinates file";
+        label.textContent = "abcdefgh"[file];
+        square.appendChild(label);
+      }
 
-    const anime = document.createElement("div");
-    anime.className = "track-anime";
-    anime.textContent = track.anime;
+      square.onclick = () => handleSquare(squareName);
 
-    const bottom = document.createElement("div");
-    bottom.className = "track-bottom";
-
-    const genre = document.createElement("span");
-    genre.className = "genre";
-    genre.textContent = track.genre.toUpperCase();
-
-    const actions = document.createElement("div");
-    actions.className = "card-actions";
-
-    const saveButton = document.createElement("button");
-    saveButton.className = "round";
-    saveButton.textContent = saved.has(track.src) ? "♥" : "♡";
-    saveButton.setAttribute("aria-label", "Save " + track.title);
-
-    saveButton.addEventListener("click", () => {
-      if (saved.has(track.src)) saved.delete(track.src);
-      else saved.add(track.src);
-      render();
-    });
-
-    const trackPlay = document.createElement("button");
-    trackPlay.className = "round";
-    trackPlay.textContent =
-      currentIndex === track.index && !audio.paused ? "Ⅱ" : "▶";
-    trackPlay.setAttribute("aria-label", "Play " + track.title);
-    trackPlay.addEventListener("click", () => playTrack(track.index));
-
-    actions.append(saveButton, trackPlay);
-    bottom.append(genre, actions);
-    info.append(title, anime, bottom);
-    card.append(cover, info);
-    grid.appendChild(card);
-  });
-}
-
-function formatTime(seconds) {
-  if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
-  return mins + ":" + secs;
-}
-
-function setStatus(message) {
-  document.getElementById("status").textContent = message;
-}
-
-function updatePlayButton() {
-  const playing = !audio.paused && !audio.ended;
-  playButton.textContent = playing ? "Ⅱ" : "▶";
-  playButton.setAttribute("aria-label", playing ? "Pause" : "Play");
-  render();
-}
-
-async function playTrack(index) {
-  const list = allTracks();
-  if (index < 0 || index >= list.length) return;
-
-  const track = list[index];
-  currentIndex = index;
-
-  document.getElementById("nowTitle").textContent = track.title;
-  document.getElementById("nowAnime").textContent = track.anime;
-  document.getElementById("miniCover").textContent = track.symbol || "音";
-  document.getElementById("currentTime").textContent = "0:00";
-  document.getElementById("duration").textContent = "0:00";
-  progress.value = 0;
-
-  audio.pause();
-  audio.src = track.src;
-  audio.load();
-
-  setStatus("Loading: " + track.title);
-
-  try {
-    await audio.play();
-    setStatus("Now playing: " + track.title);
-  } catch (error) {
-    setStatus(
-      "Could not play this file. Check that the MP3 exists and the path is correct."
-    );
-  }
-
-  updatePlayButton();
-}
-
-playButton.addEventListener("click", async () => {
-  if (currentIndex === -1) {
-    const first = visibleTracks()[0];
-    if (first) await playTrack(first.index);
-    return;
-  }
-
-  if (audio.paused) {
-    try {
-      await audio.play();
-      setStatus("Now playing: " + allTracks()[currentIndex].title);
-    } catch {
-      setStatus("Playback failed. Check the MP3 file and internet connection.");
+      boardElement.appendChild(square);
     }
-  } else {
-    audio.pause();
+  }
+}
+
+function handleSquare(square) {
+  if (thinking || game.game_over() || game.turn() !== "w") return;
+
+  const piece = game.get(square);
+
+  if (selected) {
+    const move = legalMoves.find(m => m.to === square);
+
+    if (move) {
+
+      if (move.flags.includes("p")) {
+        pendingPromotion = {
+          from: selected,
+          to: square
+        };
+
+        document.getElementById("promotion").style.display = "flex";
+        return;
+      }
+
+      makePlayerMove(selected, square);
+      return;
+    }
   }
 
-  updatePlayB
+  if (piece && piece.color === "w") {
+    selected = square;
+    legalMoves = game.moves({
+      square: square,
+      verbose: true
+    });
+  } else {
+    selected = null;
+    legalMoves = [];
+  }
+
+  renderBoard();
+}
+
+function finishPromotion(type) {
+  if (!pendingPromotion) return;
+
+  const move = {
+    from: pendingPromotion.from,
+    to: pendingPromotion.to,
+    promotion: type
+  };
+
+  document.getElementById("promotion").style.display = "none";
+  pendingPromotion = null;
+
+  makePlayerMove(move.from, move.to, type);
+}
+
+function makePlayerMove(from, to, promotion) {
+  try {
+    const move = game.move({
+      from,
+      to,
+      promotion: promotion || "q"
+    });
+
+    if (move) {
+      lastMove = {from: move.from, to: move.to};
+      selected = null;
+      legalMoves = [];
+      renderAll();
+
+      if (!game.game_over()) {
+        setTimeout(makeBotMove, 350);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function evaluate() {
+  if (game.in_checkmate()) {
+    return game.turn() === "b" ? 100000 : -100000;
+  }
+
+  if (game.game_over()) return 0;
+
+  const values = {
+    p: 100,
+    n: 320,
+    b: 330,
+    r: 500,
+    q: 900,
+    k: 20000
+  };
+
+  let score = 0;
+  const board = game.board();
+
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
+      const p = board[r][c];
+      if (!p) continue;
+
+      const value = values[p.type];
+
+      // Small center-control bonus
+      const center = 3.5 - Math.abs(3.5-c) - Math.abs(3.5-r);
+      const bonus = p.type === "k" ? 0 : center * 3;
+
+      if (p.color === "b") score += value + bonus;
+      else score -= value + bonus;
+    }
+  }
+
+  return score;
+}
+
+function minimax(depth, alpha, beta) {
+  if (depth === 0 || game.game_over()) {
+    return evaluate();
+  }
+
+  const moves = game.moves({verbose:true});
+  const maximizing = game.turn() === "b";
+
+  moves.sort((a,b) => {
+    return (b.captured ? 10 : 0) - (a.captured ? 10 : 0);
+  });
+
+  if (maximizing) {
+    let best = -Infinity;
+
+    for (const move of moves) {
+      game.move(move);
+      const score = minimax(depth-1, alpha, beta);
+      game.undo();
+
+      best = Math.max(best, score);
+      alpha = Math.max(alpha, best);
+
+      if (beta <= alpha) break;
+    }
+
+    return best;
+
+  } else {
+    let best = Infinity;
+
+    for (const move of moves) {
+      game.move(move);
+      const score = minimax(depth-1, alpha, beta);
+      game.undo();
+
+      best = Math.min(best, score);
+      beta = Math.min(beta, best);
+
+      if (beta <= alpha) break;
+    }
+
+    return best;
+  }
+}
+
+function makeBotMove() {
+  if (game.game_over() || game.turn() !== "b") {
+    updateStatus();
+    return;
+  }
+
+  thinking = true;
+  thinkingElement.textContent = "THINKING...";
+  statusElement.textContent = "AI THINKING";
+
+  const level = Number(document.getElementById("difficulty").value);
+
+  setTimeout(() => {
+    const moves = game.moves({verbose:true});
+    let bestScore = -Infinity;
+    let bestMoves = [];
+
+    const depth = level === 1 ? 1 : level === 2 ? 2 : 3;
+
+    for (const move of moves) {
+      game.move(move);
+
+      let score = minimax(depth-1, -Infinity, Infinity);
+
+      game.undo();
+
+      // Slight randomness at lower levels
+      if (level === 1) score += Math.random() * 100;
+      if (level === 2) score += Math.random() * 8;
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestMoves = [move];
+      } else if (score === bestScore) {
+        bestMoves.push(move);
+      }
+    }
+
+    if (bestMoves.length) {
+      const chosen = bestMoves[
+        Math.floor(Math.random() * bestMoves.length)
+      ];
+
+      const played = game.move({
+        from: chosen.from,
+        to: chosen.to,
+        promotion: chosen.promotion || "q"
+      });
+
+      if (played) {
+        lastMove = {from: played.from, to: played.to};
+      }
+    }
+
+    thinking = false;
+    thinkingElement.textContent = "READY";
+
+    renderAll();
+  }, 100);
+}
+
+function renderMoves() {
+  const history = game.history();
+
+  movesElement.innerHTML = "";
+
+  if (!history.length) {
+    movesElement.innerHTML =
+      '<p class="info">Your moves will appear here.</p>';
+    return;
+  }
+
+  for (let i = 0; i < history.length; i += 2) {
+    const row = document.createElement("div");
+    row.className = "move-row";
+
+    const number = document.createElement("span");
+    number.className = "move-number";
+    number.textContent = Math.floor(i/2)+1 + ".";
+
+    const white = document.createElement("span");
+    white.textContent = history[i] || "";
+
+    const black = document.createElement("span");
+    black.textContent = history[i+1] || "";
+
+    row.append(number, white, black);
+    movesElement.appendChild(row);
+  }
+
+  movesElement.scrollTop = movesElement.scrollHeight;
+}
+
+function updateStatus() {
+  if (game.in_checkmate()) {
+    resultElement.textContent =
+      game.turn() === "w"
+      ? "CHECKMATE! AI WINS."
+      : "CHECKMATE! YOU WIN!";
+    statusElement.textContent = "GAME OVER";
+  } else if (game.in_draw()) {
+    resultElement.textContent = "DRAW!";
+    statusElement.textContent = "GAME OVER";
+  } else if (game.in_check()) {
+    resultElement.textContent = "CHECK!";
+    statusElement.textContent =
+      game.turn() === "w" ? "YOUR TURN" : "AI TURN";
+  } else {
+    resultElement.textContent = "";
+    statusElement.textContent =
+      game.turn() === "w" ? "YOUR TURN" : "AI TURN";
+  }
+}
+
+function renderAll() {
+  renderBoard();
+  renderMoves();
+  updateStatus();
+}
+
+function restartGame() {
+  game.reset();
+  selected = null;
+  legalMoves = [];
+  thinking = false;
+  pendingPromotion = null;
+  lastMove = null;
+
+  document.getElementById("promotion").style.display = "none";
+  thinkingElement.textContent = "READY";
+
+  renderAll();
+}
+
+function undoMove() {
+  if (thinking || game.history().length === 0) return;
+
+  game.undo();
+
+  // Also undo the bot's previous move when possible
+  if (game.turn() === "b" && game.history().length) {
+    game.undo();
+  }
+
+  selected = null;
+  legalMoves = [];
+  lastMove = null;
+  resultElement.textContent = "";
+
+  renderAll();
+}
+
+function flipBoard() {
+  flipped = !flipped;
+  renderBoard();
+}
+
+function showHint() {
+  if (thinking || game.game_over() || game.turn() !== "w") return;
+
+  const moves = game.moves({verbose:true});
+  let best = null;
+  let bestScore = -Infinity;
+
+  for (const move of moves) {
+    game.move(move);
+    const score = evaluate();
+    game.undo();
+
+    if (-score > bestScore) {
+      bestScore = -score;
+      best = move;
+    }
+  }
+
+  if (best) {
+    selected = best.from;
+    legalMoves = game.moves({
+      square: best.from,
+      verbose: true
+    });
+
+    renderBoard();
+    resultElement.textContent =
+      "HINT: " + best.from + " → " + best.to;
+  }
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.();
+  } else {
+    document.exitFullscreen?.();
+  }
+}
+
+renderAll();
+</script>
+
+</body>
+  </html>
+  
